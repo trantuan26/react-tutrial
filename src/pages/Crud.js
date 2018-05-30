@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './Crud.css';
 import '../App.css';
 import ProductItem from './CrudItem';
+import ProductAdd from './CrudAdd';
 const products = [
     {
         name:'ipad',
@@ -24,6 +25,7 @@ class CRUD extends Component {
         }
 
         this.onDelete = this.onDelete.bind(this);
+        this.onAdd = this.onAdd.bind(this);
     }
 
     componentWillMount(){
@@ -36,7 +38,7 @@ class CRUD extends Component {
     }
 
     onDelete(name){
-        const products = this.getProducts();
+        const products = this.state.products;
         const filteredProducts = products.filter(product =>{
            return product.name !== name;
         });
@@ -44,11 +46,25 @@ class CRUD extends Component {
         this.setState({products: filteredProducts});
     }
 
+    onAdd(name, price){
+        const products = this.state.products;
+
+        products.push({
+            name,
+            price
+        })
+
+        this.setState({products});
+    }
+
     render() {
 
         return (
             <div className="CRUD">
                 <h1>Products manager</h1>
+                <ProductAdd
+                    onAdd={this.onAdd}
+                />
                 {
                     this.state.products.map(product => {
                       return (
