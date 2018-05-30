@@ -37,6 +37,7 @@ import HoverPage from './pages/HoverPage';
 import FormsPage from './pages/FormsPage';
 import ChartsPage from './pages/ChartsPage';
 import ScrollBarPage from './pages/ScrollBarPage';
+import CRUD from './pages/Crud';
 
 const Routes = () => (
     <Switch>
@@ -44,6 +45,7 @@ const Routes = () => (
         <Route path='/about' component={About}/>
         <Route path='/contact' component={Contact}/>
         <Route path='/signin' component={SignIn}/>
+        <Route path='/example' component={CRUD}/>
 
         <Route exact path='/css' component={CSSPage} />
         <Route exact path='/css/table' component={TablePage} />

@@ -1,0 +1,10 @@
+body {
+	background:white;
+}
+
+.CRUD {
+	margin: auto ;
+	width: 960px;
+	background-color: white;
+	padding: 16px;
+}
