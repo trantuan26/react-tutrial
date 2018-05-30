@@ -26,10 +26,11 @@ class CRUD extends Component {
 
         this.onDelete = this.onDelete.bind(this);
         this.onAdd = this.onAdd.bind(this);
+        this.onSubmitEdit = this.onSubmitEdit.bind(this);
     }
 
     componentWillMount(){
-     const products = this.getProducts();
+        let products = this.getProducts();
      this.setState({products});
     }
 
@@ -38,8 +39,8 @@ class CRUD extends Component {
     }
 
     onDelete(name){
-        const products = this.state.products;
-        const filteredProducts = products.filter(product =>{
+        let products = this.state.products;
+        let filteredProducts = products.filter(product =>{
            return product.name !== name;
         });
 
@@ -47,13 +48,25 @@ class CRUD extends Component {
     }
 
     onAdd(name, price){
-        const products = this.state.products;
+        let products = this.state.products;
 
         products.push({
             name,
             price
         })
 
+        this.setState({products});
+    }
+
+    onSubmitEdit(name, price, key){
+        let products = this.state.products;
+        products =  products.map(product => {
+            if (product.name === key) {
+                product.name = name;
+                product.price = price;
+            }
+            return product;
+        })
         this.setState({products});
     }
 
@@ -72,6 +85,7 @@ class CRUD extends Component {
                        key={product.name}
                        {...product}
                           onDelete={this.onDelete}
+                       onSubmitEdit={this.onSubmitEdit}
                       />
                       );
                     })
