@@ -7,23 +7,32 @@ import {Button, Card, CardBody, CardTitle, Row, Col, Container} from 'mdbreact';
 import mainLogo from '../../img/logo.gif';
 import ReCAPTCHA from 'react-grecaptcha'
 
+
 class SimpleSelect extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             value: '',
-            ecountryData: '',
-            phone: '0975227856',
+            ecountryData: '84',
+            phone: '975227856',
+            isDisabled: true,
         };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.expiredCallback = this.expiredCallback.bind(this);
         this.verifyCallback = this.verifyCallback.bind(this);
     }
 
+    componentWillMount() {
+    }
 
     onChangeHandler(status, value, countryData, number, id) {
-        console.log(status, value, countryData, number, id);
+        if (status) {
+            this.setState({phone: number});
+        } else {
+            this.setState({phone: ''});
+        }
+        console.log(this.state.phone);
     };
 
     // specifying your onload callback function
@@ -32,8 +41,25 @@ class SimpleSelect extends React.Component {
     };
 
 // specifying verify callback function
-    verifyCallback(response) {
-        console.log(JSON.stringify(response));
+    verifyCallback(token) {
+        console.log(token);
+        var url = 'https://www.google.com/recaptcha/api/siteverify';
+        var data = {
+            secret: '6LfPfVwUAAAAAFs896v-B4rzTILIYqhtSy_wjfbb',
+            response: token+"hhhhhhhh",
+            remoteip: 'localhost:3000'};
+
+        fetch(url, {
+            method: 'POST', // or 'PUT'
+            mode: 'no-cors',
+            body: JSON.stringify(data), // data can be `string` or {object}!
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then(res => console.log(res.status))
+            .catch(error => console.error('Error:', error))
+            .then(response => console.log('Success:', response));
+
     };
 
     render() {
@@ -42,11 +68,11 @@ class SimpleSelect extends React.Component {
                 <Row className="d-flex align-items-center" style={{minHeight: '30rem'}}>
                     <Col md="7" lg="7">
                     </Col>
-                    <Col md="5" lg="5" className="ml-lg-0 align-top" style={{maxWidth: '25rem'}}>
+                    <Col md="5" lg="5" className="ml-lg-0 align-top">
                         <div className="text-center text-md-right signin-padding">
-                            <Card style={{minWidth: '343px'}}>
+                            <Card style={{maxWidth: '340px'}}>
                                 <CardBody className="text-center">
-                                    <img className="img-fluid signin-padding" src={mainLogo} alt="sign in"/>
+                                    <img className="signin-padding" src={mainLogo} alt="sign in" height="96"/>
                                     <div className='signin-line'>
 
                                     </div>
@@ -71,7 +97,9 @@ class SimpleSelect extends React.Component {
                                         locale="en"
                                         className="signin-captcha"
                                     />
-                                    <Button className="signin-padding btn-verify">send code verify</Button>
+                                    <Button className="signin-padding btn-verify" id="mySubmit"
+                                            disabled={this.state.isDisabled}
+                                    >send code verify</Button>
                                 </CardBody>
                             </Card>
                         </div>
