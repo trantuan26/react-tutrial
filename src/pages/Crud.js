@@ -3,19 +3,7 @@ import './Crud.css';
 import '../App.css';
 import ProductItem from './CrudItem';
 import ProductAdd from './CrudAdd';
-const products = [
-    {
-        name:'ipad',
-        price:'200'
-    },
-    {
-        name:'iphone',
-        price:'650'
-    }
-];
-
-localStorage.setItem('products', JSON.stringify(products));
-
+import { getFromStorage, setInStorage } from '../utils/storage';
 
 class CRUD extends Component {
     constructor(props){
@@ -30,21 +18,23 @@ class CRUD extends Component {
     }
 
     componentWillMount(){
-        let products = this.getProducts();
-     this.setState({products});
+        let products = getFromStorage('products');
+        if (products) {
+            this.setState({products});
+        }
     }
 
-    getProducts(){
-       return JSON.parse(localStorage.getItem('products'));
-    }
+
+
 
     onDelete(name){
         let products = this.state.products;
         let filteredProducts = products.filter(product =>{
            return product.name !== name;
         });
-
+        setInStorage('products',filteredProducts);
         this.setState({products: filteredProducts});
+
     }
 
     onAdd(name, price){
@@ -54,7 +44,7 @@ class CRUD extends Component {
             name,
             price
         })
-
+        setInStorage('products',products);
         this.setState({products});
     }
 
@@ -67,6 +57,7 @@ class CRUD extends Component {
             }
             return product;
         })
+        setInStorage('products',products);
         this.setState({products});
     }
 

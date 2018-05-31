@@ -1,0 +1,31 @@
+#telphone {
+    border-bottom: none;
+}
+
+
+.signin-padding {
+    padding: 16px;
+}
+
+.signin-captcha {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.btn-verify {
+    background-color: #d46c2e !important;
+}
+
+.signin-line {
+    color: #d0d0d0;
+    border-bottom: 1px #d0d0d0 solid;
+    margin-top: 16px;
+}
+
+.card-title {
+    position: relative;
+    /* margin-top: -15px; */
+    width: 40%;
+    background: white;
+    margin: -15px auto 15px auto;
+}
