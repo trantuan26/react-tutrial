@@ -52,36 +52,19 @@ class SimpleSelect extends React.Component {
 // specifying verify callback function
 //    secret: '6LfPfVwUAAAAAFs896v-B4rzTILIYqhtSy_wjfbb',
     verifyCallback = (token) => {
-        Axios.post('http://localhost/tasks', {
-            name: token
+        Axios.post('http://localhost/captcha', {
+            token: token
         })
             .then(function (response) {
-                console.log(response);
+               if (response){
+                  if (response.status === 200){
+                      console.log(response.data);
+                  }
+               }
             })
             .catch(function (error) {
                 console.log(error);
             });
-
-        // const headers = new Headers();
-        // headers.append('Content-Type','application/json');
-        // const mUrl= 'https://www.google.com/recaptcha/api/siteverify';
-        // const data = {
-        //     secret: '6LfPfVwUAAAAAFs896v-B4rzTILIYqhtSy_wjfbb',
-        //     response:token,
-        // }
-        // const options = {
-        //     method: 'POST',
-        //     headers,
-        //     //mode:'no-cors',
-        //     body:JSON.stringify(data)
-        // }
-        //
-        // const request = new Request(mUrl,options);
-        // const response =await fetch(request);
-        // const status = await response.status;
-        // console.log(status);
-
-
     }
 
 
