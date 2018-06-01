@@ -2,7 +2,7 @@ import React from 'react';
 import IntlTelInput from 'react-intl-tel-input';
 import libphonenumber from '../../../node_modules/react-intl-tel-input/dist/libphonenumber.js';
 import '../../../node_modules/react-intl-tel-input/dist/main.css';
-import './Contact.css';
+import './SingIn.css';
 import {Button, Card, CardBody, CardTitle, Row, Col, Container} from 'mdbreact';
 import mainLogo from '../../img/logo.gif';
 import ReCAPTCHA from 'react-grecaptcha';
@@ -24,14 +24,19 @@ class SimpleSelect extends React.Component {
         this.verifyCallback = this.verifyCallback.bind(this);
     }
 
+    // Axios.get('http://localhost/tasks')
+    //     .then(function (response) {
+    //         console.log(response);
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //     });
     componentDidMount() {
-        Axios.get('http://localhost/tasks')
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot){
+        return false;
     }
 
 
@@ -46,31 +51,30 @@ class SimpleSelect extends React.Component {
 
     // specifying your onload callback function
     expiredCallback() {
-        console.log('Done!!!!');
+        this.setState({isDisabled:true});
     };
 
-// specifying verify callback function
-//    secret: '6LfPfVwUAAAAAFs896v-B4rzTILIYqhtSy_wjfbb',
-    verifyCallback = (token) => {
+    //specifying verify callback function
+    //secret: '6LfPfVwUAAAAAFs896v-B4rzTILIYqhtSy_wjfbb',
+    verifyCallback(token){
         Axios.post('http://localhost/captcha', {
             token: token
         })
-            .then(function (response) {
-               if (response){
-                  if (response.status === 200){
-                      console.log(response.data);
-                  }
-               }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        .then(response =>  {
+           if (response.data !== undefined){
+              this.setState({isDisabled:!response.data});
+           }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
 
     render() {
         return (
-            <Container>
+            <div className="main-background">
+            <Container >
                 <Row className="d-flex align-items-center" style={{minHeight: '30rem'}}>
                     <Col md="7" lg="7">
                     </Col>
@@ -112,7 +116,7 @@ class SimpleSelect extends React.Component {
                     </Col>
                 </Row>
             </Container>
-
+            </div>
         );
     }
 }

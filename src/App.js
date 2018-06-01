@@ -51,6 +51,9 @@ class App extends Component {
                                     <NavLink to="/">Home</NavLink>
                                 </NavItem>
                                 <NavItem>
+                                    <NavLink to="/signup">Sign Up</NavLink>
+                                </NavItem>
+                                <NavItem>
                                     <NavLink to="/signin">Sign In</NavLink>
                                 </NavItem>
                                 <NavItem>
@@ -61,9 +64,6 @@ class App extends Component {
                                 </NavItem>
                                 <NavItem>
                                     <NavLink to="/advanced">Advanced</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink to="/example">Example</NavLink>
                                 </NavItem>
                             </NavbarNav>
                         </Collapse>

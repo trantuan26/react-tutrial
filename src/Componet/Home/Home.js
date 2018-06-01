@@ -2,25 +2,16 @@ import React from 'react';
 import {
     NavLink
 } from "react-router-dom";
-import { EdgeHeader, FreeBird, Container, Col, Row, CardBody, Fa } from 'mdbreact';
+import {  Container, Col, Row,  Fa } from 'mdbreact';
 import './HomePage.css';
+import SlideTop from './SlideHome';
 
 
 class HomePageMain extends React.Component {
   render(){
     return(
       <div>
-        <EdgeHeader color="stylish-color-organ darken-3" />
-        <FreeBird>
-          <Row>
-            <Col md="10" className="mx-auto float-none white z-depth-1 py-2 px-2">
-              <CardBody>
-                <h2 className="h2-responsive"><strong>MDB React</strong></h2>
-                <p className="pb-4">React Bootstrap with Material Design</p>
-              </CardBody>
-            </Col>
-          </Row>
-        </FreeBird>
+        <SlideTop />
         <Container className="home-container">
           <Row>
             <Col md="10" className="mx-auto mt-4">

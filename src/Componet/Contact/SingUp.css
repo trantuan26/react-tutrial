@@ -1,0 +1,89 @@
+#telphone {
+    border: none !important;
+    margin-right: -84px;
+}
+
+.signup-container {
+    width: 100%;
+    background: url("../../img/css/driver_main_banner.jpg") no-repeat #d0d0d0;
+    background-size: cover;
+    background-position: center center;
+    height: 800px;
+    margin-bottom: -26px;
+}
+
+.form-group {
+    height: 32px !important;
+    display: block !important;
+    margin-top: 16px;
+    color: #d0d0d0;
+}
+
+.select-country, .select-country select {
+    display: block !important;
+    border-radius: 5px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search-md], input[type=search], textarea.md-textarea {
+    display: block !important;
+    border-radius: 5px !important;
+    border: 1px solid #D0D0D0 !important;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.signup-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+    right: 15px;
+    position: absolute;
+    z-index: 4;
+}
+
+.signin-padding {
+    padding: 16px;
+}
+
+.signin-captcha {
+    margin-top: 16px;
+}
+
+@media screen and (max-height: 300px) {
+    #rc-imageselect, .g-recaptcha {
+        transform: scale(0.77);
+        -webkit-transform: scale(0.77);
+        transform-origin: 0 0;
+        -webkit-transform-origin: 0 0;
+    }
+}
+
+.margin_top_16 {
+    margin-top: 16px;
+}
+
+.btn-verify {
+    background-color: #d46c2e !important;
+    width: 100%;
+}
+
+.signin-line {
+    color: #d0d0d0;
+    border-bottom: 1px #d0d0d0 solid;
+    margin-top: 16px;
+}
+
+.card-title {
+    position: relative;
+    /* margin-top: -15px; */
+    width: 100% !important;
+    font-family: 'Sanomat Grab Web Bold', sans-serif !important;
+    margin: 16px;
+    font-weight: 600;
+    font-size: 1.786em;
+}
+
+#mySubmit, mySubmit button {
+    margin: 0;
+}

@@ -3,6 +3,14 @@
     margin-right: -84px;
 }
 
+.main-background{
+    width: 100%;
+    background: url("../../img/css/driver_main_banner.jpg") no-repeat #d0d0d0;
+    background-size: cover;
+    background-position: center center;
+    height: 800px;
+    margin-bottom: -26px;
+}
 
 .signin-padding {
     padding: 16px;

@@ -5,8 +5,10 @@ import {
 
 import Home from './Componet/Home/Home';
 import About from './Componet/About/About';
+import SignUp from './Componet/Contact/SignUp';
 import SignIn from './Componet/Contact/SignIn';
 import Contact from './Componet/Contact/Contact';
+import Privacy from './Componet/Privacy/Privacy';
 
 import ButtonPage from './pages/ButtonPage';
 import CSSPage from './pages/CSSPage';
@@ -39,13 +41,16 @@ import ChartsPage from './pages/ChartsPage';
 import ScrollBarPage from './pages/ScrollBarPage';
 import CRUD from './pages/Crud';
 
+
 const Routes = () => (
     <Switch>
         <Route exact path='/' component={Home}/>
         <Route path='/about' component={About}/>
         <Route path='/contact' component={Contact}/>
+        <Route path='/signup' component={SignUp}/>
         <Route path='/signin' component={SignIn}/>
         <Route path='/example' component={CRUD}/>
+        <Route path='/privacy' component={Privacy}/>
 
         <Route exact path='/css' component={CSSPage} />
         <Route exact path='/css/table' component={TablePage} />

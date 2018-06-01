@@ -9,7 +9,7 @@ class HomePage extends React.Component {
   render(){
     return(
       <div>
-        <EdgeHeader color="indigo darken-3" />
+        <EdgeHeader color="indigo white" />
         <FreeBird>
           <Row>
             <Col md="10" className="mx-auto float-none white z-depth-1 py-2 px-2">
