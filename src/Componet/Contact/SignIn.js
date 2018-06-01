@@ -5,7 +5,8 @@ import '../../../node_modules/react-intl-tel-input/dist/main.css';
 import './Contact.css';
 import {Button, Card, CardBody, CardTitle, Row, Col, Container} from 'mdbreact';
 import mainLogo from '../../img/logo.gif';
-import ReCAPTCHA from 'react-grecaptcha'
+import ReCAPTCHA from 'react-grecaptcha';
+import Axios from 'axios';
 
 
 class SimpleSelect extends React.Component {
@@ -23,8 +24,16 @@ class SimpleSelect extends React.Component {
         this.verifyCallback = this.verifyCallback.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
+        Axios.get('http://localhost/tasks')
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
+
 
     onChangeHandler(status, value, countryData, number, id) {
         if (status) {
@@ -41,26 +50,40 @@ class SimpleSelect extends React.Component {
     };
 
 // specifying verify callback function
-    verifyCallback(token) {
-        console.log(token);
-        var url = 'https://www.google.com/recaptcha/api/siteverify';
-        var data = {
-            secret: '6LfPfVwUAAAAAFs896v-B4rzTILIYqhtSy_wjfbb',
-            response: token+"hhhhhhhh",
-            remoteip: 'localhost:3000'};
+//    secret: '6LfPfVwUAAAAAFs896v-B4rzTILIYqhtSy_wjfbb',
+    verifyCallback = (token) => {
+        Axios.post('http://localhost/tasks', {
+            name: token
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
 
-        fetch(url, {
-            method: 'POST', // or 'PUT'
-            mode: 'no-cors',
-            body: JSON.stringify(data), // data can be `string` or {object}!
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        }).then(res => console.log(res.status))
-            .catch(error => console.error('Error:', error))
-            .then(response => console.log('Success:', response));
+        // const headers = new Headers();
+        // headers.append('Content-Type','application/json');
+        // const mUrl= 'https://www.google.com/recaptcha/api/siteverify';
+        // const data = {
+        //     secret: '6LfPfVwUAAAAAFs896v-B4rzTILIYqhtSy_wjfbb',
+        //     response:token,
+        // }
+        // const options = {
+        //     method: 'POST',
+        //     headers,
+        //     //mode:'no-cors',
+        //     body:JSON.stringify(data)
+        // }
+        //
+        // const request = new Request(mUrl,options);
+        // const response =await fetch(request);
+        // const status = await response.status;
+        // console.log(status);
 
-    };
+
+    }
+
 
     render() {
         return (
