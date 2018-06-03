@@ -9,6 +9,7 @@ import SignUp from './Componet/Contact/SignUp';
 import SignIn from './Componet/Contact/SignIn';
 import Contact from './Componet/Contact/Contact';
 import Privacy from './Componet/Privacy/Privacy';
+import Verify from './Componet/Verify/Verify';
 
 import ButtonPage from './pages/ButtonPage';
 import CSSPage from './pages/CSSPage';
@@ -47,10 +48,11 @@ const Routes = () => (
         <Route exact path='/' component={Home}/>
         <Route path='/about' component={About}/>
         <Route path='/contact' component={Contact}/>
-        <Route path='/signup' component={SignUp}/>
-        <Route path='/signin' component={SignIn}/>
+        <Route exact path='/signup' component={SignUp}/>
+        <Route exact path='/signin' component={SignIn}/>
         <Route path='/example' component={CRUD}/>
         <Route path='/privacy' component={Privacy}/>
+        <Route path='/verify' component={Verify}/>
 
         <Route exact path='/css' component={CSSPage} />
         <Route exact path='/css/table' component={TablePage} />

@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+    Redirect
+} from "react-router-dom";
 import './SingUp.css';
 import {Button, Card, CardBody, CardTitle, Row, Col, CardText, Collapse} from 'mdbreact';
 import ReCAPTCHA from 'react-grecaptcha';
@@ -25,6 +28,7 @@ class SimpleSelect extends React.Component {
             typeDriveValid: false,
             referralValid: false,
             isDisabled: true,
+            isRegister: false,
         };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.expiredCallback = this.expiredCallback.bind(this);
@@ -189,10 +193,16 @@ class SimpleSelect extends React.Component {
                referralCode: referralCode,
            })
                .then(response => {
-                   console.log(response);
+                  if (response.status === 200) {
+                      let { value } = response.data;
+                      if (value === 7) {
+                          this.setState({isRegister:true});
+                      }
+                  }
                })
                .catch(function (error) {
                    console.log(error);
+                   this.setState({isRegister:false});
                });
        }
     }
@@ -203,6 +213,7 @@ class SimpleSelect extends React.Component {
             <div className="signup-container">
                 <Row className="d-flex">
                     <Col md="7" lg="7">
+                        { this.state.isRegister ? (<Redirect to="/verify" />) : ""}
                     </Col>
                     <Col md="5" lg="5" className="ml-lg-0">
                         <Card style={{maxWidth: '400px'}} className="signup-card margin_top_16">
