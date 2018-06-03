@@ -5,11 +5,16 @@
 
 .signup-container {
     width: 100%;
-    background: url("../../img/css/driver_main_banner.jpg") no-repeat #d0d0d0;
+    background: url("../../img/css/driver_main_banner_signin.jpg") no-repeat #d0d0d0;
     background-size: cover;
     background-position: center center;
-    height: 800px;
+    height: 900px;
     margin-bottom: -26px;
+}
+
+.collapse p {
+    color: red;
+    font-size: 12px;
 }
 
 .form-group {

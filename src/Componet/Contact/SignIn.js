@@ -57,7 +57,7 @@ class SimpleSelect extends React.Component {
     //specifying verify callback function
     //secret: '6LfPfVwUAAAAAFs896v-B4rzTILIYqhtSy_wjfbb',
     verifyCallback(token){
-        Axios.post('http://localhost/captcha', {
+        Axios.post('http://localhost/api/captcha', {
             token: token
         })
         .then(response =>  {
