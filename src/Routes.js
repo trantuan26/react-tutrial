@@ -48,15 +48,15 @@ const Routes = () => (
         <Route exact path='/' component={Home}/>
         <Route path='/about' component={About}/>
         <Route path='/contact' component={Contact}/>
-        <Route exact path='/signup' component={SignUp}/>
-        <Route exact path='/signin' component={SignIn}/>
+        <Route path='/signup' component={SignUp}/>
+        <Route path='/signin' component={SignIn}/>
         <Route path='/example' component={CRUD}/>
         <Route path='/privacy' component={Privacy}/>
         <Route path='/verify' component={Verify}/>
 
-        <Route exact path='/css' component={CSSPage} />
-        <Route exact path='/css/table' component={TablePage} />
-        <Route exact path='/components' component={ComponentsPage} />
+        <Route  path='/css' component={CSSPage} />
+        <Route  path='/css/table' component={TablePage} />
+        <Route  path='/components' component={ComponentsPage} />
         <Route path='/components/badge' component={BadgePage} />
         <Route path='/components/breadcrumb' component={BreadcrumbPage} />
         <Route path='/components/media' component={MediaPage} />
@@ -74,7 +74,7 @@ const Routes = () => (
         <Route path='/components/list-group' component={ListGroupPage} />
         <Route path='/components/tooltips' component={TooltipsPage} />
         <Route path='/components/footer' component={FooterPage} />
-        <Route exact path='/advanced' component={AdvancedPage} />
+        <Route path='/advanced' component={AdvancedPage} />
         <Route path='/advanced/modal' component={ModalPage} />
         <Route path='/advanced/carousel' component={CarouselPage} />
         <Route path='/advanced/collapse' component={CollapsePage} />
