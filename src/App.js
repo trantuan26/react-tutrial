@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem, NavLink } from 'mdbreact';
-import { BrowserRouter as Router } from 'react-router-dom';
+import {Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem, NavLink} from 'mdbreact';
+import {BrowserRouter as Router} from 'react-router-dom';
 
 import Routes from './Routes';
 import FooterMain from './Componet/Footer/Footer';
@@ -13,7 +13,7 @@ import './App.css';
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             collapsed: false,
         };
         this.handleTogglerClick = this.handleTogglerClick.bind(this);
@@ -21,28 +21,25 @@ class App extends Component {
 
     }
 
-    handleTogglerClick(){
+    handleTogglerClick() {
         this.setState({
             collapsed: !this.state.collapsed
         });
     }
 
-    handleNavbarClick(){
+    handleNavbarClick() {
         this.setState({
             collapsed: false
         });
     }
 
     render() {
-        const collapsed = this.state.collapsed;
-        const overlay = <div id="sidenav-overlay" style={{backgroundColor: 'transparent', color: "#fff"}} onClick={this.handleNavbarClick}/>;
-
         return (
             <Router>
                 <div className="flyout">
                     <Navbar className="nav-main" expand="md" fixed="top" scrolling>
                         <NavbarBrand href="/">
-                            <img src={ mainLogo } alt="or-trans" height="32" /> OR - TRANS
+                            <img src={mainLogo} alt="or-trans" height="32"/> OR - TRANS
                         </NavbarBrand>
                         <NavbarToggler onClick={this.handleTogglerClick}/>
                         <Collapse isOpen={this.state.collapsed} navbar>
@@ -68,11 +65,10 @@ class App extends Component {
                             </NavbarNav>
                         </Collapse>
                     </Navbar>
-                    { collapsed && overlay}
                     <main style={{marginTop: '4rem'}}>
-                        <Routes />
+                        <Routes/>
                     </main>
-                    <FooterMain />
+                    <FooterMain/>
                 </div>
             </Router>
         );
