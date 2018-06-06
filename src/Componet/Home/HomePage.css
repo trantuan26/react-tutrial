@@ -7,6 +7,13 @@ body {
 .stylish-color-drak {
   background-color: #595959  !important; }
 
-.home-container {
-  color: white;
+.home-container,
+.home-container h3,
+.home-container span,
+.home-container p{
+  color: white!important;
+}
+.container,
+span {
+  color: white!important;
 }

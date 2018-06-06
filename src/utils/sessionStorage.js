@@ -1,9 +1,9 @@
-export function getFromStorage(key) {
+export function getFromSession(key) {
     if(!key){
         return null;
     }
     try {
-        const valueStr = localStorage.getItem(key);
+        const valueStr = sessionStorage.getItem(key);
         if(valueStr){
             return JSON.parse(valueStr);
         }
@@ -13,12 +13,12 @@ export function getFromStorage(key) {
     }
 }
 
-export function setInStorage(key, obj) {
+export function setInSession(key, obj) {
     if (!key) {
         console.error('Error: key is missing');
     }
     try {
-        localStorage.setItem(key, JSON.stringify(obj));
+        sessionStorage.setItem(key, JSON.stringify(obj));
     } catch (e) {
         console.error(e);
     }

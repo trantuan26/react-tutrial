@@ -9,6 +9,7 @@ import {ToastContainer, toast} from 'react-toastify';
 import '../../pages/alerts.css';
 import ReCAPTCHA from 'react-grecaptcha';
 import Axios from 'axios';
+import {  setInSession } from '../../utils/sessionStorage';
 
 
 class SimpleSelect extends React.Component {
@@ -31,6 +32,7 @@ class SimpleSelect extends React.Component {
             typeDriveValid: false,
             referralValid: false,
             isDisabled: true,
+            isRegister:false,
         };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.expiredCallback = this.expiredCallback.bind(this);
@@ -177,6 +179,8 @@ class SimpleSelect extends React.Component {
         if (fullnameValid || phoneValid || addressValid || typeDriveValid || referralValid || isDisabled) {
             console.log(fullnameValid, phoneValid, addressValid, typeDriveValid, referralValid, isDisabled);
         } else {
+            //lưu số điện thoại vào session
+            setInSession("phone",phone);
             //localhost/api/auth/register
             Axios.post('http://localhost/api/auth/register', {
                 fullName: fullname,
@@ -192,19 +196,16 @@ class SimpleSelect extends React.Component {
                 .then(response => {
                     if (response.status === 200) {
                         let {value} = response.data;
-                        if (value === 7) {
-                            return (<Redirect to="/verify"/>);
+                        if (value === 7 || value === 5) {
+                           this.setState({isRegister:true})
                         }
-                        if (value === 5) {
-                            this.setState({phoneValid: true});
-                            toast.error('Error account exists');
-                        } else {
+                        else {
                             toast.warn('Please check value typing');
                         }
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    toast.warn('Please check value typing');
                 });
         }
     }
@@ -216,7 +217,6 @@ class SimpleSelect extends React.Component {
                 <Container>
                     <Row className="d-flex">
                         <Col md="7" lg="7">
-
                             {this.state.isRegister ? (<Redirect to="/verify"/>) : ""}
                         </Col>
                         <Col md="5" lg="5" className="ml-lg-0">
