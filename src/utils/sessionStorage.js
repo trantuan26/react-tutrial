@@ -23,3 +23,7 @@ export function setInSession(key, obj) {
         console.error(e);
     }
 }
+
+export function removeSession(key) {
+    sessionStorage.removeItem(key);
+}

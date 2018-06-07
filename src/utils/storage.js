@@ -23,3 +23,7 @@ export function setInStorage(key, obj) {
         console.error(e);
     }
 }
+
+export function removeStorage(key) {
+    localStorage.removeItem(key);
+}

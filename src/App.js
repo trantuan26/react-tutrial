@@ -9,16 +9,44 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import './css/mdb.css';
 import './App.css';
+import {getFromStorage} from './utils/storage';
+import Config from "./utils/config";
+
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             collapsed: false,
+            useraccount: {
+                id: '',
+                token: '',
+                activeType: '',
+            },
+            user: {
+                fullName: '',
+                phone: '',
+                avatarLink: '',
+            },
+            isLogin: false,
         };
         this.handleTogglerClick = this.handleTogglerClick.bind(this);
         this.handleNavbarClick = this.handleNavbarClick.bind(this);
 
+    }
+
+      componentWillMount() {
+        let useraccount =  getFromStorage(Config.USER);
+        if (useraccount) {
+            this.setState({useraccount});
+        }
+
+        let user =  getFromStorage(Config.USERINFO);
+        if (user) {
+            this.setState({user});
+        }
+          if (this.state.user.phone.length>5 ) this.setState({isLogin: true});
+          console.log(this.state);
     }
 
     handleTogglerClick() {
@@ -48,12 +76,6 @@ class App extends Component {
                                     <NavLink to="/">Home</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink to="/signup">Sign Up</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink to="/signin">Sign In</NavLink>
-                                </NavItem>
-                                <NavItem>
                                     <NavLink to="/css">CSS</NavLink>
                                 </NavItem>
                                 <NavItem>
@@ -62,6 +84,21 @@ class App extends Component {
                                 <NavItem>
                                     <NavLink to="/advanced">Advanced</NavLink>
                                 </NavItem>
+                                {
+                                    !this.state.isLogin &&   <NavItem>
+                                        <NavLink to="/signin">Sign In</NavLink>
+                                    </NavItem>
+                                }
+                                {
+                                    !this.state.isLogin &&   <NavItem>
+                                        <NavLink to="/signup">Sign Up</NavLink>
+                                    </NavItem>
+                                }
+                                {
+                                    this.state.isLogin &&   <NavItem>
+                                        <NavLink to="/contact">{this.state.user.fullName.toUpperCase()}</NavLink>
+                                    </NavItem>
+                                }
                             </NavbarNav>
                         </Collapse>
                     </Navbar>

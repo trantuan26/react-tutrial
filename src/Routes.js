@@ -8,6 +8,7 @@ import About from './Componet/About/About';
 import SignUp from './Componet/Contact/SignUp';
 import SignIn from './Componet/Contact/SignIn';
 import Contact from './Componet/Contact/Contact';
+import DocumentPage from './Componet/Contact/DocumentPage';
 import Privacy from './Componet/Privacy/Privacy';
 import Verify from './Componet/Verify/Verify';
 
@@ -53,6 +54,7 @@ const Routes = () => (
         <Route path='/example' component={CRUD}/>
         <Route path='/privacy' component={Privacy}/>
         <Route path='/verify' component={Verify}/>
+        <Route path='/update-user-acount' component={DocumentPage}/>
 
         <Route exact path='/css' component={CSSPage} />
         <Route exact path='/css/table' component={TablePage} />

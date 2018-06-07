@@ -50,7 +50,7 @@ class SimpleSelect extends React.Component {
     }
 
     async componentWillMount() {
-        await Axios.get('http://localhost/api/type_drive')
+        await Axios.get(Api.TYPEDRIVE)
             .then(response => {
                 if (response.status === 200) {
                     this.setState({arrayTypeDrive: response.data});
@@ -60,7 +60,7 @@ class SimpleSelect extends React.Component {
                 console.log(error);
             });
 
-        await Axios.get('http://localhost/api/referral')
+        await Axios.get(Api.REFERRAL)
             .then(response => {
                 if (response.status === 200) {
                     this.setState({arrayTypeReferral: response.data});
@@ -121,7 +121,7 @@ class SimpleSelect extends React.Component {
     //specifying verify callback function
     //secret: '6LfPfVwUAAAAAFs896v-B4rzTILIYqhtSy_wjfbb',
     verifyCallback(token) {
-        Axios.post('http://localhost/api/captcha', {
+        Axios.post(Api.CAPTCHA, {
             token: token
         })
             .then(response => {
