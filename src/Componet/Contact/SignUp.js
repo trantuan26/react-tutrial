@@ -10,6 +10,7 @@ import '../../pages/alerts.css';
 import ReCAPTCHA from 'react-grecaptcha';
 import Axios from 'axios';
 import {  setInSession } from '../../utils/sessionStorage';
+import Api from '../../utils/api';
 
 
 class SimpleSelect extends React.Component {
@@ -182,13 +183,13 @@ class SimpleSelect extends React.Component {
             //lưu số điện thoại vào session
             setInSession("phone",phone);
             //localhost/api/auth/register
-            Axios.post('http://localhost/api/auth/register', {
+            Axios.post(Api.REGISTER, {
                 fullName: fullname,
                 address: address,
                 countryCode: 84,
                 phone: parseInt(phone, 10),
-                roleType: 2,
-                verifyType: 1,
+                roleType: 2, // 1 user, 2 driver, 0 admin
+                verifyType: 1, // 0: mail, 1 phone, 2 password
                 typeDrive: typeDrive,
                 referral: referral,
                 referralCode: referralCode,

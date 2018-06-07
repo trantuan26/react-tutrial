@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Container, Row, Col, Button} from 'mdbreact';
 import "./verify.css";
 import { getFromSession } from '../../utils/sessionStorage';
+import Api from '../../utils/api';
 import Axios from "axios/index";
 import {ToastContainer, toast} from 'react-toastify';
 
@@ -31,23 +32,44 @@ class Verify extends Component {
 
     submitSendSMS() {
         const { phone } = this.state;
-        Axios.post('http://localhost/api/auth/sendsms', {
-            phone: parseInt(phone, 10),
-        })
-            .then(response => {
-                if (response.status === 200) {
-                    let {value, code} = response.data;
-                    console.log(value, code);
-                    toast.success('Hệ thống đã gửi SMS, vui lòng kiểm tra tin nhắn');
-                }
+        if (phone===null || phone === undefined) {
+            toast.error('Please check value phone number');
+        }else{
+            Axios.post(Api.SENDSMS, {
+                phone: parseInt(phone, 10),
             })
-            .catch(function (error) {
-                toast.warn('Please check value typing');
-            });
+                .then(response => {
+                    if (response.status === 200) {
+                        let {value, code} = response.data;
+                        console.log(value, code);
+                        toast.success('Hệ thống đã gửi SMS, vui lòng kiểm tra tin nhắn');
+                    }
+                })
+                .catch(function (error) {
+                    toast.warn('Please check value typing');
+                });
+        }
     }
 
     handleSubmit() {
-
+        const { phone } = this.state;
+        if (phone===null || phone === undefined) {
+            toast.error('Please check value phone number');
+        }else{
+            Axios.post('http://localhost/api/auth/sendsms', {
+                phone: parseInt(phone, 10),
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        let {value, code} = response.data;
+                        console.log(value, code);
+                        toast.success('Hệ thống đã gửi SMS, vui lòng kiểm tra tin nhắn');
+                    }
+                })
+                .catch(function (error) {
+                    toast.warn('Please check value typing');
+                });
+        }
     }
 
     render() {
