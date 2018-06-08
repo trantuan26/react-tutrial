@@ -1,10 +1,11 @@
 import React from 'react';
 import { Col, Container, Row, Footer } from 'mdbreact';
+import "./Footer.css"
 
 class FooterMain extends React.Component {
   render(){
     return(
-      <div>
+      <div className="footer-main">
         <Footer color="stylish-color-organ" className="font-small pt-4 mt-4">
           <Container className="text-center text-md-left">
             <Row className="text-center text-md-left mt-3 pb-3">

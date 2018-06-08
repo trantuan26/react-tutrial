@@ -13,7 +13,8 @@ import ReCAPTCHA from 'react-grecaptcha';
 import Axios from 'axios';
 import Api from "../../utils/api";
 import {setInSession} from "../../utils/sessionStorage";
-
+import FooterMain from '../Footer/Footer';
+import NavbarCus from '../Navbar/Navbar';
 
 class SimpleSelect extends React.Component {
 
@@ -24,13 +25,15 @@ class SimpleSelect extends React.Component {
             countryData: '',
             phone: '',
             isDisabled: true,
-            isRegister:false,
+            isRegister: false,
         };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.expiredCallback = this.expiredCallback.bind(this);
         this.verifyCallback = this.verifyCallback.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+
     }
+
 
     onSubmit() {
         let {
@@ -50,8 +53,11 @@ class SimpleSelect extends React.Component {
             })
                 .then(response => {
                     if (response.status === 200) {
+                        console.log(response.data);
                         toast.success('Hệ thống đã gửi SMS, vui lòng kiểm tra tin nhắn');
-                        this.setState({isRegister:true});
+                        setTimeout(function () {
+                            this.setState({isRegister: true});
+                        }.bind(this), 2000);
                     } else {
                         toast.error('phone number not exists. If you have not account, click above to Sign up');
                     }
@@ -104,55 +110,59 @@ class SimpleSelect extends React.Component {
 
     render() {
         return (
-            <div className="main-background">
-                {this.state.isRegister ? (<Redirect to="/verify"/>) : ""}
-                <Container>
-                    <Row className="d-flex align-items-center" style={{minHeight: '30rem'}}>
-                        <Col md="7" lg="7">
-                        </Col>
-                        <Col md="5" lg="5" className="ml-lg-0 align-top">
-                            <div className="text-center text-md-right signin-padding">
-                                <Card style={{maxWidth: '340px'}}>
-                                    <CardBody className="text-center">
-                                        <img className="signin-padding" src={mainLogo} alt="sign in" height="96"/>
-                                        <div className='signin-line'>
+            <div>
+                <NavbarCus/>
+                <div className="main-background">
+                    {this.state.isRegister ? (<Redirect to="/verify"/>) : ""}
+                    <Container  style={{marginTop:"4em"}}>
+                        <Row className="d-flex align-items-center" style={{minHeight: '30rem'}}>
+                            <Col md="7" lg="7">
+                            </Col>
+                            <Col md="5" lg="5" className="ml-lg-0 align-top">
+                                <div className="text-center text-md-right signin-padding">
+                                    <Card style={{maxWidth: '340px'}}>
+                                        <CardBody className="text-center">
+                                            <img className="signin-padding" src={mainLogo} alt="sign in" height="96"/>
+                                            <div className='signin-line'>
 
-                                        </div>
-                                        <CardTitle>Sign In</CardTitle>
-                                        <div className="text-left"
-                                             style={{border: '1px solid #D0D0D0', borderRadius: '5px'}}>
-                                            <IntlTelInput
-                                                onPhoneNumberChange={this.onChangeHandler}
-                                                onPhoneNumberBlur={this.onChangeHandler}
-                                                preferredCountries={['vn']}
-                                                onSelectFlag={null}
-                                                nationalMode={false}
-                                                separateDialCode={true}
-                                                fieldId={'telphone'}
-                                                style={{borderBottom: '0px'}}
-                                                utilsScript={libphonenumber}/>
-                                        </div>
-                                        <ReCAPTCHA
-                                            sitekey="6LfPfVwUAAAAAODFgOV5Qch0OV7lIBky41Tk1rp7"
-                                            callback={this.verifyCallback}
-                                            expiredCallback={this.expiredCallback}
-                                            locale="en"
-                                            className="signin-captcha"
-                                        />
-                                        <Button className="signin-padding btn-verify" id="mySubmit"
-                                                disabled={this.state.isDisabled} onClick={this.onSubmit}
-                                        >send code verify</Button>
-                                    </CardBody>
-                                </Card>
-                            </div>
-                        </Col>
-                    </Row>
-                    <ToastContainer
-                        hideProgressBar={true}
-                        newestOnTop={true}
-                        autoClose={5000}
-                    />
-                </Container>
+                                            </div>
+                                            <CardTitle>Sign In</CardTitle>
+                                            <div className="text-left"
+                                                 style={{border: '1px solid #D0D0D0', borderRadius: '5px'}}>
+                                                <IntlTelInput
+                                                    onPhoneNumberChange={this.onChangeHandler}
+                                                    onPhoneNumberBlur={this.onChangeHandler}
+                                                    preferredCountries={['vn']}
+                                                    onSelectFlag={null}
+                                                    nationalMode={false}
+                                                    separateDialCode={true}
+                                                    fieldId={'telphone'}
+                                                    style={{borderBottom: '0px'}}
+                                                    utilsScript={libphonenumber}/>
+                                            </div>
+                                            <ReCAPTCHA
+                                                sitekey="6LfPfVwUAAAAAODFgOV5Qch0OV7lIBky41Tk1rp7"
+                                                callback={this.verifyCallback}
+                                                expiredCallback={this.expiredCallback}
+                                                locale="en"
+                                                className="signin-captcha"
+                                            />
+                                            <Button className="signin-padding btn-verify" id="mySubmit"
+                                                    disabled={this.state.isDisabled} onClick={this.onSubmit}
+                                            >send code verify</Button>
+                                        </CardBody>
+                                    </Card>
+                                </div>
+                            </Col>
+                        </Row>
+                        <ToastContainer
+                            hideProgressBar={true}
+                            newestOnTop={true}
+                            autoClose={5000}
+                        />
+                    </Container>
+                </div>
+                <FooterMain/>
             </div>
         );
     }

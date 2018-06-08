@@ -10,7 +10,8 @@ import Config from '../../utils/config';
 import Axios from "axios/index";
 import {ToastContainer, toast} from 'react-toastify';
 import {setInStorage} from '../../utils/storage';
-
+import FooterMain from '../Footer/Footer';
+import NavbarCus from '../Navbar/Navbar';
 
 class Verify extends Component {
     constructor(props) {
@@ -21,7 +22,6 @@ class Verify extends Component {
             code: '',
             isLogin: false,
             isSignIn: false,
-
         }
         this.verifyChange = this.verifyChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -72,6 +72,7 @@ class Verify extends Component {
         }).then(response => {
             if (response.status === 200) {
                 let {activeType, create_at, email, fullName, phone, roleType, updated_at, verifyType, _id} = response.data.response;
+                console.log(activeType, create_at, email, fullName, phone, roleType, updated_at, verifyType, _id);
                 setInStorage(Config.USERINFO, {
                     activeType, create_at, email, fullName, phone, roleType, updated_at, verifyType, _id
                 });
@@ -107,10 +108,14 @@ class Verify extends Component {
                         //activeType = 2 dang ký chua dc duyet
                         //activeType = 1 dang ký da được dc duyet
                         if (activeType === 1) {
-                            this.setState({isLogin: true});
+                            setTimeout(function () {
+                                this.setState({isLogin: true});
+                            }.bind(this), 2000);
                         }
                         if (activeType === 2) {
-                            this.setState({isSignIn: true});
+                            setTimeout(function () {
+                                this.setState({isSignIn: true});
+                            }.bind(this), 2000);
                         } else {
                             toast.warn('Xác nhận không thành công');
                         }
@@ -127,49 +132,59 @@ class Verify extends Component {
 
     render() {
         return (
-            <Container className="home-container verify-container">
-                {this.state.isLogin ? (<Redirect to="/contact"/>) : ""}
-                {this.state.isSignIn ? (<Redirect to="/update-user-acount"/>) : ""}
-                <Row>
-                    <Col md="10" className="mx-auto mt-4">
-                        <p>Vui lòng xác thực số điện thoại bằng cách nhập Mã xác thực (OTP) đã gửi qua SMS đến
-                            bạn </p>
-                        <p> ******{this.state.phone.substring(this.state.phone.length - 4, this.state.phone.length)} </p>
-                    </Col>
-                </Row>
-                <Row className="d-flex">
-                    <Col md="4" className="mx-auto mt-4">
-                        <input className="text-center" type="password" value={this.state.verify}
-                               placeholder="" name="verify"
-                               onChange={this.verifyChange}
-                        />
-                    </Col>
-                </Row>
-                <Row className="d-flex">
-                    <Col md="5" className="mx-auto mt-5">
-                        <Button className="btn-verify" id="mySubmit" type="submit"
-                                onClick={this.handleSubmit}
-                        >Gửi</Button>
-                    </Col>
-                </Row>
-                <Row className="d-flex">
-                    <Col md="10" className="mx-auto mt-4">
-                        <p>Bấm vào <a style={{color: "blue"}} onClick={this.submitSendSMS}> đây </a> để hệ thống gửi
-                            lại mã xác thực qua SMS(nếu như bạn chưa nhận được tin nhăn sau 5 phút) </p>
-                    </Col>
-                </Row>
+            <div>
+                <NavbarCus/>
+                <div style={{marginTop: "4em"}}>
+                    <Container className="home-container verify-container">
+                        {this.state.isLogin ? (<Redirect to="/contact"/>) : ""}
+                        {this.state.isSignIn ? (<Redirect to="/update-user-acount"/>) : ""}
+                        <Row>
+                            <Col md="10" className="mx-auto mt-4">
+                                <p>Vui lòng xác thực số điện thoại bằng cách nhập Mã xác thực (OTP) đã gửi qua SMS đến
+                                    bạn </p>
+                                <p> ******{this.state.phone.substring(this.state.phone.length - 4, this.state.phone.length)} </p>
+                            </Col>
+                        </Row>
+                        <Row className="d-flex">
+                            <Col md="4" className="mx-auto mt-4">
+                                <input className="text-center" type="password" value={this.state.verify}
+                                       placeholder="" name="verify"
+                                       onChange={this.verifyChange}
+                                />
+                            </Col>
+                        </Row>
+                        <Row className="d-flex">
+                            <Col md="5" className="mx-auto mt-5">
+                                <Button className="btn-verify" id="mySubmit" type="submit"
+                                        onClick={this.handleSubmit}
+                                >Gửi</Button>
+                            </Col>
+                        </Row>
+                        <Row className="d-flex">
+                            <Col md="10" className="mx-auto mt-4">
+                                <p>Bấm vào <a style={{color: "blue"}} onClick={this.submitSendSMS}> đây </a> để hệ thống
+                                    gửi
+                                    lại mã xác thực qua SMS(nếu như bạn chưa nhận được tin nhăn sau 5 phút) </p>
+                            </Col>
+                        </Row>
 
-                <Row className="d-flex">
-                    <Col md="10" className="mx-auto mt-4">
-                        <p>Bấm vào <a style={{color: "blue"}} href="/signin"> đây </a> để đăng nhập (nếu như bạn đã có tài khoản ) </p>
-                    </Col>
-                </Row>
-                <ToastContainer
-                    hideProgressBar={true}
-                    newestOnTop={true}
-                    autoClose={5000}
-                />
-            </Container>
+                        <Row className="d-flex">
+                            <Col md="10" className="mx-auto mt-4">
+                                <p>Bấm vào <a style={{color: "blue"}} href="/signin"> đây </a> để đăng nhập (nếu như bạn
+                                    đã
+                                    có tài khoản ) </p>
+                            </Col>
+                        </Row>
+                        <ToastContainer
+                            hideProgressBar={true}
+                            newestOnTop={true}
+                            autoClose={5000}
+                        />
+                    </Container>
+                </div>
+
+                <FooterMain/>
+            </div>
         );
     }
 }

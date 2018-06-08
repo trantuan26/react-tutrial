@@ -1,0 +1,16 @@
+.contact-container {
+    color: white;
+    text-align: center !important;
+}
+
+.contact-container p {
+    color: white;
+    background-color: transparent!important;
+    text-align: center !important;
+}
+
+.contact-container a {
+    color: blue;
+    background-color: transparent!important;
+    text-align: center !important;
+}

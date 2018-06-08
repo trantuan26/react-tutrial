@@ -9,9 +9,10 @@ import {ToastContainer, toast} from 'react-toastify';
 import '../../pages/alerts.css';
 import ReCAPTCHA from 'react-grecaptcha';
 import Axios from 'axios';
-import {  setInSession } from '../../utils/sessionStorage';
+import {setInSession} from '../../utils/sessionStorage';
 import Api from '../../utils/api';
-
+import FooterMain from '../Footer/Footer';
+import NavbarCus from '../Navbar/Navbar';
 
 class SimpleSelect extends React.Component {
 
@@ -33,7 +34,7 @@ class SimpleSelect extends React.Component {
             typeDriveValid: false,
             referralValid: false,
             isDisabled: true,
-            isRegister:false,
+            isRegister: false,
         };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.expiredCallback = this.expiredCallback.bind(this);
@@ -181,7 +182,7 @@ class SimpleSelect extends React.Component {
             console.log(fullnameValid, phoneValid, addressValid, typeDriveValid, referralValid, isDisabled);
         } else {
             //lưu số điện thoại vào session
-            setInSession("phone",phone);
+            setInSession("phone", phone);
             //localhost/api/auth/register
             Axios.post(Api.REGISTER, {
                 fullName: fullname,
@@ -198,7 +199,7 @@ class SimpleSelect extends React.Component {
                     if (response.status === 200) {
                         let {value} = response.data;
                         if (value === 7 || value === 5) {
-                           this.setState({isRegister:true})
+                            this.setState({isRegister: true})
                         }
                         else {
                             toast.warn('Please check value typing');
@@ -214,133 +215,140 @@ class SimpleSelect extends React.Component {
 
     render() {
         return (
-            <div className="signup-container">
-                <Container>
-                    <Row className="d-flex">
-                        <Col md="7" lg="7">
-                            {this.state.isRegister ? (<Redirect to="/verify"/>) : ""}
-                        </Col>
-                        <Col md="5" lg="5" className="ml-lg-0">
-                            <Card style={{maxWidth: '400px'}} className="signup-card margin_top_16">
-                                <CardBody>
-                                    <CardTitle>Drive with OR-TRANS</CardTitle>
-                                    <CardText>Enter your basic information to get started</CardText>
-                                    <Row className="d-flex">
-                                        <select name="city" value={this.state.city} onChange={this.handleChangeCity}
-                                                className="form-control select-country" id="exampleFormControlSelect1">
-                                            <option value="hcm">Ho Chi Minh</option>
-                                            <option value="hni">Ha Noi</option>
-                                            <option value="dng">Da Nang</option>
-                                            <option value="cto">Can Tho</option>
-                                        </select>
-                                    </Row>
+            <div>
+                <NavbarCus/>
+                <div className="signup-container" style={{marginTop: "4em"}}>
 
-                                    <Row className="d-flex margin_top_16">
-                                        <input type="text" value={this.state.fullname} placeholder="Full name"
-                                               name="fullname"
-                                               onChange={this.handleChangeFullname}
-                                        />
-                                    </Row>
-                                    <Collapse isOpen={this.state.fullnameValid}>
-                                        <p>please! This field is required, must be more than 10 letters </p>
-                                    </Collapse>
+                    <Container>
+                        <Row className="d-flex">
+                            <Col md="7" lg="7">
+                                {this.state.isRegister ? (<Redirect to="/verify"/>) : ""}
+                            </Col>
+                            <Col md="5" lg="5" className="ml-lg-0">
+                                <Card style={{maxWidth: '400px'}} className="signup-card margin_top_16">
+                                    <CardBody>
+                                        <CardTitle>Drive with OR-TRANS</CardTitle>
+                                        <CardText>Enter your basic information to get started</CardText>
+                                        <Row className="d-flex">
+                                            <select name="city" value={this.state.city} onChange={this.handleChangeCity}
+                                                    className="form-control select-country"
+                                                    id="exampleFormControlSelect1">
+                                                <option value="hcm">Ho Chi Minh</option>
+                                                <option value="hni">Ha Noi</option>
+                                                <option value="dng">Da Nang</option>
+                                                <option value="cto">Can Tho</option>
+                                            </select>
+                                        </Row>
 
-                                    <Row className="d-flex margin_top_16">
-                                        <input type="tel" value={this.state.phone}
-                                               placeholder="Mobile Number" name="phone"
-                                               onChange={this.handleChangePhone}
-                                        />
-                                    </Row>
-                                    <Collapse isOpen={this.state.phoneValid}>
-                                        <p>please! This field is required </p>
-                                    </Collapse>
+                                        <Row className="d-flex margin_top_16">
+                                            <input type="text" value={this.state.fullname} placeholder="Full name"
+                                                   name="fullname"
+                                                   onChange={this.handleChangeFullname}
+                                            />
+                                        </Row>
+                                        <Collapse isOpen={this.state.fullnameValid}>
+                                            <p>please! This field is required, must be more than 10 letters </p>
+                                        </Collapse>
 
-                                    <Row className="d-flex margin_top_16">
-                                        <input type="text" id="inputAddress"
-                                               placeholder="1234 Main St" name="address"
-                                               onChange={this.handleChangeAddress}
-                                               value={this.state.address}
-                                        />
-                                    </Row>
-                                    <Collapse isOpen={this.state.addressValid}>
-                                        <p>please! This field is required, must be more than 30 letters </p>
-                                    </Collapse>
+                                        <Row className="d-flex margin_top_16">
+                                            <input type="tel" value={this.state.phone}
+                                                   placeholder="Mobile Number" name="phone"
+                                                   onChange={this.handleChangePhone}
+                                            />
+                                        </Row>
+                                        <Collapse isOpen={this.state.phoneValid}>
+                                            <p>please! This field is required </p>
+                                        </Collapse>
 
-                                    <Row className="d-flex margin_top_16">
-                                        <select name="typeDrive" value={this.state.typeDrive}
-                                                onChange={this.handleChangeType}
-                                                className="form-control select-country">
-                                            <option value="0">Type Drive</option>
-                                            {
-                                                this.state.arrayTypeDrive.map((item) => {
-                                                    return (
-                                                        <option key={item.typeId}
-                                                                value={item.typeId}>{item.typeName}</option>
-                                                    )
-                                                })
-                                            }
-                                        </select>
-                                    </Row>
-                                    <Row className="d-flex margin_top_16">
-                                        <select name="referral" value={this.state.referral}
-                                                onChange={this.handleChangeReferral}
-                                                className="form-control select-country">
-                                            <option value="0">Referral</option>
-                                            {
-                                                this.state.arrayTypeReferral.map((item) => {
-                                                    return (
-                                                        <option key={item.typeId}
-                                                                value={item.typeId}>{item.typeName}</option>
-                                                    )
-                                                })
-                                            }
-                                        </select>
-                                    </Row>
-                                    <Collapse isOpen={this.state.typeDriveValid}>
-                                        <p>please! This field is required </p>
-                                    </Collapse>
+                                        <Row className="d-flex margin_top_16">
+                                            <input type="text" id="inputAddress"
+                                                   placeholder="1234 Main St" name="address"
+                                                   onChange={this.handleChangeAddress}
+                                                   value={this.state.address}
+                                            />
+                                        </Row>
+                                        <Collapse isOpen={this.state.addressValid}>
+                                            <p>please! This field is required, must be more than 30 letters </p>
+                                        </Collapse>
 
-                                    <Row className="d-flex margin_top_16">
-                                        <input type="text"
-                                               placeholder="referral code" name="referral_code"
-                                               onChange={this.handleChangeReferralCode}
-                                               value={this.state.referralCode}
-                                        />
-                                    </Row>
+                                        <Row className="d-flex margin_top_16">
+                                            <select name="typeDrive" value={this.state.typeDrive}
+                                                    onChange={this.handleChangeType}
+                                                    className="form-control select-country">
+                                                <option value="0">Type Drive</option>
+                                                {
+                                                    this.state.arrayTypeDrive.map((item) => {
+                                                        return (
+                                                            <option key={item.typeId}
+                                                                    value={item.typeId}>{item.typeName}</option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
+                                        </Row>
+                                        <Row className="d-flex margin_top_16">
+                                            <select name="referral" value={this.state.referral}
+                                                    onChange={this.handleChangeReferral}
+                                                    className="form-control select-country">
+                                                <option value="0">Referral</option>
+                                                {
+                                                    this.state.arrayTypeReferral.map((item) => {
+                                                        return (
+                                                            <option key={item.typeId}
+                                                                    value={item.typeId}>{item.typeName}</option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
+                                        </Row>
+                                        <Collapse isOpen={this.state.typeDriveValid}>
+                                            <p>please! This field is required </p>
+                                        </Collapse>
 
-                                    <Row className="d-flex margin_top_16">
-                                        <ReCAPTCHA
-                                            sitekey="6LfPfVwUAAAAAODFgOV5Qch0OV7lIBky41Tk1rp7"
-                                            callback={this.verifyCallback}
-                                            expiredCallback={this.expiredCallback}
-                                            locale="en"
-                                        />
-                                    </Row>
+                                        <Row className="d-flex margin_top_16">
+                                            <input type="text"
+                                                   placeholder="referral code" name="referral_code"
+                                                   onChange={this.handleChangeReferralCode}
+                                                   value={this.state.referralCode}
+                                            />
+                                        </Row>
 
-                                    <Row className="d-flex margin_top_16">
-                                        <p>By proceeding, I agree that Grab can collect, use and disclose the
-                                            information
-                                            provided by me in accordance with the <a
-                                                href="http://localhost/privacy"> Privacy Policy </a>which I have read
-                                            and
-                                            understand.</p>
-                                    </Row>
-                                    <Row className="d-flex margin_top_16">
-                                        <Button className="btn-verify" id="mySubmit" type="submit"
-                                                disabled={this.state.isDisabled} onClick={this.handleSubmit}
-                                        >SIGN UP</Button>
-                                    </Row>
+                                        <Row className="d-flex margin_top_16">
+                                            <ReCAPTCHA
+                                                sitekey="6LfPfVwUAAAAAODFgOV5Qch0OV7lIBky41Tk1rp7"
+                                                callback={this.verifyCallback}
+                                                expiredCallback={this.expiredCallback}
+                                                locale="en"
+                                            />
+                                        </Row>
 
-                                </CardBody>
-                            </Card>
-                        </Col>
-                    </Row>
-                    <ToastContainer
-                        hideProgressBar={true}
-                        newestOnTop={true}
-                        autoClose={5000}
-                    />
-                </Container>
+                                        <Row className="d-flex margin_top_16">
+                                            <p>By proceeding, I agree that Grab can collect, use and disclose the
+                                                information
+                                                provided by me in accordance with the <a
+                                                    href="http://localhost/privacy"> Privacy Policy </a>which I have
+                                                read
+                                                and
+                                                understand.</p>
+                                        </Row>
+                                        <Row className="d-flex margin_top_16">
+                                            <Button className="btn-verify" id="mySubmit" type="submit"
+                                                    disabled={this.state.isDisabled} onClick={this.handleSubmit}
+                                            >SIGN UP</Button>
+                                        </Row>
+
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+                        <ToastContainer
+                            hideProgressBar={true}
+                            newestOnTop={true}
+                            autoClose={5000}
+                        />
+                    </Container>
+                </div>
+                <FooterMain/>
             </div>
         );
     }

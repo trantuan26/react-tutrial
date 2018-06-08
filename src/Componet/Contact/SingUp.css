@@ -12,9 +12,7 @@
     margin-bottom: -26px;
 }
 
-.container {
-    color: black;
-}
+
 
 .collapse p {
     color: red;
@@ -97,13 +95,13 @@ input[type=text], input[type=password], input[type=email], input[type=url], inpu
     margin: 0;
 }
 
-.card .card-body h4 {
+.container .card .card-body h4 {
     font-weight: 400;
     color: black;
 }
 
 @media only screen and (max-width: 600px) {
-    .signup-container {
+    .main-background .signup-container {
         text-align: center !important;
         padding: 0 16px;
     }
@@ -115,7 +113,7 @@ input[type=text], input[type=password], input[type=email], input[type=url], inpu
     color: black;
 }
 
-.card .card-body p {
+.main-background .card .card-body p {
     margin-bottom: 1rem;
     color: black;
 }
