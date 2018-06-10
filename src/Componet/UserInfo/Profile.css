@@ -1,0 +1,138 @@
+.uploads {
+    display: flex;
+    background: #eaeff2;
+    border: 1px solid #ccd6dd;
+}
+
+.form-upload {
+    text-align: center;
+    position: relative;
+}
+
+.upload-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #fff2f521;
+    line-height: 1.5em;
+}
+
+.upload-container input[type=file] {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+    outline: 0;
+    line-height: 1.5em;
+}
+
+.profile-doccument {
+    font-weight: 300;
+    padding-top: 2em;
+}
+
+.profile-title .warning {
+    color: red !important;
+}
+
+.warning {
+    color: red !important;
+}
+
+@media only screen and (min-width: 400px) {
+    .sample_doc img {
+        max-height: 200px;
+        max-width: 196px;
+        border: 1px solid #ccd6dd;
+        text-align: center;
+    }
+}
+
+.sample_doc {
+    text-align: center;
+    padding: 16px;
+}
+
+.sample_doc img {
+    text-align: center;
+    margin-top: 16px;
+}
+
+.sample_doc p {
+    text-align: center;
+    margin-top: 16px;
+}
+
+input[type="file" i] {
+    align-items: baseline;
+    color: inherit;
+    text-align: start !important;
+}
+
+.container .list {
+    display: flex;
+    margin: 1em 0;
+    padding-left: 20px;
+    align-items: center;
+}
+
+.icon-tick {
+    background: url("../../img/css/icons8_checkmark_48.png") no-repeat;
+    background-size: 24px;
+    width: 32px;
+    height: 32px;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+    color: white;
+}
+
+.react-datepicker__input-container {
+    width: 100%;
+    color: white;
+    text-align: left;
+}
+
+.react-datepicker__header,
+.react-datepicker__header span,
+.react-datepicker__input-container select {
+    color: black !important;
+}
+
+.react-datepicker__input-container input {
+    width: 99% !important;
+    color: white;
+    text-align: left;
+}
+
+.profile-title {
+    margin-top: 16px;
+}
+.indentily-number p {
+    margin-bottom: 0px;
+    margin-top: 1em;
+}
+
+.indentily-number .card-number {
+   color: white!important;
+}
+
+.indentily-number input {
+    width: 99% !important;
+}
+
+.indentily-submit {
+    margin-top: 16px;
+    width: 100%;
+    text-align: center;
+}
+
+.indentily-submit .submit {
+    margin-top: 16px;
+    width: 100%;
+    background: #d46c2e;
+}

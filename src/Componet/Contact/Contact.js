@@ -65,7 +65,7 @@ class Contact extends Component {
 
                         <Row className="d-flex">
                             <Col  md="10" className="mx-auto mt-4" >
-                                <p> Bấm vào <a href="/documents/profile-pictrue" className="btn-verify"> đây </a> Cập nhật biểu mẫu để chính thức trở thành thành viên OR-TRANS </p>
+                                <p> Bấm vào <a href="/update-user-acount" className="btn-verify"> đây </a> Cập nhật biểu mẫu để chính thức trở thành thành viên OR-TRANS </p>
                             </Col>
                         </Row>
                         <Row className="d-flex">

@@ -5,9 +5,11 @@
     "axios": "^0.18.0",
     "chart.js": "^2.7.2",
     "mdbreact": "^4.4.0",
+    "moment": "^2.22.2",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-chartjs-2": "^2.7.2",
+    "react-datepicker": "^1.5.0",
     "react-dom": "^16.4.0",
     "react-grecaptcha": "^1.2.5",
     "react-intl-tel-input": "^5.0.5",
@@ -16,7 +18,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "set PORT=80 && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

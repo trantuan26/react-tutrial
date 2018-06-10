@@ -71,11 +71,9 @@ class Verify extends Component {
             }
         }).then(response => {
             if (response.status === 200) {
-                let {activeType, create_at, email, fullName, phone, roleType, updated_at, verifyType, _id} = response.data.response;
-                console.log(activeType, create_at, email, fullName, phone, roleType, updated_at, verifyType, _id);
-                setInStorage(Config.USERINFO, {
-                    activeType, create_at, email, fullName, phone, roleType, updated_at, verifyType, _id
-                });
+                //let {activeType, create_at, email, fullName, phone, roleType, updated_at, verifyType, _id} = response.data.response;
+                //console.log(activeType, create_at, email, fullName, phone, roleType, updated_at, verifyType, _id);
+                setInStorage(Config.USERINFO, response.data.response);
             }
         })
             .catch(function (error) {

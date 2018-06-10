@@ -82,15 +82,15 @@ class HomeMenu extends Component {
                             <NavItem>
                                 <NavLink to="/">Home</NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink to="/css">CSS</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink to="/components">Components</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink to="/advanced">Advanced</NavLink>
-                            </NavItem>
+                            {/*<NavItem>*/}
+                                {/*<NavLink to="/css">CSS</NavLink>*/}
+                            {/*</NavItem>*/}
+                            {/*<NavItem>*/}
+                                {/*<NavLink to="/components">Components</NavLink>*/}
+                            {/*</NavItem>*/}
+                            {/*<NavItem>*/}
+                                {/*<NavLink to="/advanced">Advanced</NavLink>*/}
+                            {/*</NavItem>*/}
                             {
                                 !this.state.isLogin && <NavItem>
                                     <NavLink to="/signin">Sign In</NavLink>
@@ -103,7 +103,7 @@ class HomeMenu extends Component {
                             }
                             {
                                 this.state.isLogin && <NavItem>
-                                    <NavLink to="/contact">{this.state.user.fullName.toUpperCase()}</NavLink>
+                                    <NavLink to="/contact">{this.state.user.fullName}</NavLink>
                                 </NavItem>
                             }
                         </NavbarNav>

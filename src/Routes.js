@@ -12,6 +12,7 @@ import DocumentPage from './Componet/UserInfo/DocumentPage';
 import Privacy from './Componet/Privacy/Privacy';
 import Verify from './Componet/Verify/Verify';
 import ProfilePicture from './Componet/UserInfo/ProfilePicture';
+import IndentilyCard from './Componet/UserInfo/IndentilyCard';
 
 import ButtonPage from './pages/ButtonPage';
 import CSSPage from './pages/CSSPage';
@@ -57,6 +58,7 @@ const Routes = () => (
         <Route path='/verify' component={Verify}/>
         <Route path='/update-user-acount' component={DocumentPage}/>
         <Route path='/documents/profile-pictrue' component={ProfilePicture}/>
+        <Route path='/documents/identily-card' component={IndentilyCard}/>
 
         <Route exact path='/css' component={CSSPage} />
         <Route exact path='/css/table' component={TablePage} />

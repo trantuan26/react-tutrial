@@ -177,7 +177,7 @@ class SimpleSelect extends React.Component {
 
     async handleSubmit() {
         await this.checkValid();
-        const {fullname, phone, address, typeDrive, referral, referralCode, fullnameValid, phoneValid, addressValid, typeDriveValid, referralValid, isDisabled} = await this.state;
+        const {city, fullname, phone, address, typeDrive, referral, referralCode, fullnameValid, phoneValid, addressValid, typeDriveValid, referralValid, isDisabled} = await this.state;
         if (fullnameValid || phoneValid || addressValid || typeDriveValid || referralValid || isDisabled) {
             console.log(fullnameValid, phoneValid, addressValid, typeDriveValid, referralValid, isDisabled);
         } else {
@@ -186,6 +186,7 @@ class SimpleSelect extends React.Component {
             //localhost/api/auth/register
             Axios.post(Api.REGISTER, {
                 fullName: fullname,
+                cityDrive: city,
                 address: address,
                 countryCode: 84,
                 phone: parseInt(phone, 10),
