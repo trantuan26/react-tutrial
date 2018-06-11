@@ -14,7 +14,7 @@ import './Profile.css';
 import picture from '../../img/picture.svg';
 
 
-class IndentilyCard extends React.Component {
+class VehicleImage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -363,4 +363,4 @@ class IndentilyCard extends React.Component {
     }
 }
 
-export default IndentilyCard;
+export default VehicleImage;
