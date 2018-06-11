@@ -3,13 +3,15 @@ import {
     Redirect
 } from "react-router-dom";
 import {Container, Button, Collapse} from 'mdbreact';
+import {ToastContainer, toast} from 'react-toastify';
+
 import Api from '../../utils/api';
 import FooterMain from '../Footer/Footer';
 import NavbarCus from '../Navbar/Navbar';
 import {getFromStorage, setInStorage} from "../../utils/storage";
 import Config from "../../utils/config";
 import './Profile.css';
-import boy from '../../img/boy.svg';
+import picture from '../../img/picture.svg';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
@@ -88,6 +90,15 @@ class IndentilyCard extends React.Component {
         const {id} = this.state.useraccount;
         if (isDisabled || !startDate.isValid() || identityCardNumber.toString().length !== 9) {
             console.log(isDisabled, startDate.isValid(), identityCardNumber)
+            if (!startDate.isValid()) {
+                toast.warn('Vui lòng chọn ngày đúng');
+            }
+            if (identityCardNumber.toString().length !== 9) {
+                this.setState({
+                    CardNumberValid: true,
+                    isDisabled: true,
+                });
+            }
         } else {
 
             const headers = new Headers();
@@ -109,8 +120,13 @@ class IndentilyCard extends React.Component {
                 .then((responseJson) => {
                     if (responseJson.value === true) {
                         setInStorage(Config.USERINFO, responseJson.response);
-                        this.setState({user: responseJson.response, isRedirect:true})
+                        toast.success('Cập nhật thành công');
+                        setTimeout(function () {
+                            this.setState({user: responseJson.response, isRedirect:true});
+                        }.bind(this),2000);
+
                     } else {
+                        toast.success('Cập nhật thất bại vui lòng kiểm tra giá trị nhập');
                         this.setState({isRefesh:true})
                     }
                 })
@@ -130,44 +146,59 @@ class IndentilyCard extends React.Component {
 
     handleIdentityCardFront(ev) {
         ev.preventDefault();
-        const data = new FormData();
-        data.append('avatar', this.uploadInputFront.files[0]);
-        data.append('id', this.state.useraccount.id);
-        data.append('folder', this.state.user.phone);
-        data.append('expression', 'identityCardFront');
 
-        console.log(this.state.useraccount.id, this.state.useraccount.token);
+        if (this.state.useraccount.id === undefined
+            || this.state.useraccount.id === ''
+            || this.state.user.phone === undefined
+            || this.state.user.phone === ''
+        ) {
+            toast.warn('Vui lòng đăng xuất và đăng nhập lại mới có thể thực hiện công việc này');
+        } else {
+            const data = new FormData();
+            data.append('avatar', this.uploadInputFront.files[0]);
+            data.append('id', this.state.useraccount.id);
+            data.append('folder', this.state.user.phone);
+            data.append('expression', 'identityCardFront');
 
-        const headers = new Headers();
-        headers.append('Authorization', 'Bearer ' + this.state.useraccount.token);
-        const config = {
-            method: 'POST',
-            headers: headers,
-            body: data,
-        };
+            const headers = new Headers();
+            headers.append('Authorization', 'Bearer ' + this.state.useraccount.token);
+            const config = {
+                method: 'POST',
+                headers: headers,
+                body: data,
+            };
 
-        fetch(Api.PROFILE_CARD, config)
-            .then((response) => response.json())
-            .then((responseJson) => {
-                if (responseJson.value === true) {
-                    setInStorage(Config.USERINFO, responseJson.response);
-                    this.setState({user: responseJson.response})
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+            fetch(Api.PROFILE_CARD, config)
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    if (responseJson.value === true) {
+                        setInStorage(Config.USERINFO, responseJson.response);
+                        this.setState({user: responseJson.response})
+                    } else {
+                        console.error(responseJson);
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+
     }
 
     handleIdentityCardBehind(ev) {
         ev.preventDefault();
+        if (this.state.useraccount.id === undefined
+            || this.state.useraccount.id === ''
+            || this.state.user.phone === undefined
+            || this.state.user.phone === ''
+        ) {
+            toast.warn('Vui lòng đăng xuất và đăng nhập lại mới có thể thực hiện công việc này');
+        } else {
         const data = new FormData();
         data.append('avatar', this.uploadInputBehind.files[0]);
         data.append('id', this.state.useraccount.id);
         data.append('expression', 'identityCardBehind');
         data.append('folder', this.state.user.phone);
-
-        console.log(this.state.useraccount.id, this.state.useraccount.token);
 
         const headers = new Headers();
         headers.append('Authorization', 'Bearer ' + this.state.useraccount.token);
@@ -187,7 +218,7 @@ class IndentilyCard extends React.Component {
             .catch((error) => {
                 console.error(error);
             });
-    }
+    }}
 
 
     render() {
@@ -219,10 +250,10 @@ class IndentilyCard extends React.Component {
                                 }
                                 {
                                     this.state.user.identityCardFront === undefined &&
-                                    <img className="img-fluid" style={{maxHeight: "200px"}} src={boy} alt="avatar"/>
+                                    <img className="img-fluid" style={{maxHeight: "200px"}} src={picture} alt="avatar"/>
                                 }
 
-                                <p> Bấm để chọn ảnh khác</p>
+                                <p> Bấm để chọn ảnh </p>
                             </div>
 
                         </div>
@@ -247,17 +278,17 @@ class IndentilyCard extends React.Component {
                                 }
                                 {
                                     this.state.user.identityCardBehind === undefined &&
-                                    <img className="img-fluid" style={{maxHeight: "200px"}} src={boy} alt="avatar"/>
+                                    <img className="img-fluid" style={{maxHeight: "200px"}} src={picture} alt="avatar"/>
                                 }
 
-                                <p> Bấm để chọn ảnh khác</p>
+                                <p> Bấm để chọn ảnh </p>
                             </div>
 
                         </div>
                         <div>
                             <div className="list">
                                 <div className="icon icon-tick"></div>
-                                <div className="list-item">CMND, Bằng Lái còn hiệu lực, chưa hết hạn.</div>
+                                <div className="list-item">CMND, chưa hết hạn.</div>
                             </div>
                             <div className="list">
                                 <div className="icon icon-tick"></div>
@@ -296,6 +327,11 @@ class IndentilyCard extends React.Component {
                         </div>
 
                     </Container>
+                    <ToastContainer
+                        hideProgressBar={true}
+                        newestOnTop={true}
+                        autoClose={5000}
+                    />
                 </div>
                 <FooterMain/>
             </div>
