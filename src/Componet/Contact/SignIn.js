@@ -6,7 +6,7 @@ import IntlTelInput from 'react-intl-tel-input';
 import libphonenumber from '../../../node_modules/react-intl-tel-input/dist/libphonenumber.js';
 import '../../../node_modules/react-intl-tel-input/dist/main.css';
 import './SingIn.css';
-import {Button, Card, CardBody, CardTitle, Row, Col, Container} from 'mdbreact';
+import {Button, Card, CardBody, CardTitle, Row, Col, Container, Collapse } from 'mdbreact';
 import {ToastContainer, toast} from 'react-toastify';
 import mainLogo from '../../img/logo.gif';
 import ReCAPTCHA from 'react-grecaptcha';
@@ -140,6 +140,15 @@ class SimpleSelect extends React.Component {
                                                     style={{borderBottom: '0px'}}
                                                     utilsScript={libphonenumber}/>
                                             </div>
+                                            <div className="d-flex margin_top_16">
+                                                <input type="password" value={this.state.password}
+                                                       placeholder="password" name="password"
+                                                       onChange={this.handleChangePassword}
+                                                />
+                                            </div>
+                                            <Collapse isOpen={this.state.passwordValid}>
+                                                <p>please! This field is required </p>
+                                            </Collapse>
                                             <ReCAPTCHA
                                                 sitekey="6LfPfVwUAAAAAODFgOV5Qch0OV7lIBky41Tk1rp7"
                                                 callback={this.verifyCallback}

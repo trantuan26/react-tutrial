@@ -12,7 +12,7 @@ class HomePageMain extends React.Component {
     render() {
         return (
             <div>
-                <NavbarCus/>
+                <NavbarCus></NavbarCus>
                 <div style={{marginTop: "4em"}}>
                     <SlideTop/>
                     <Container className="home-container">

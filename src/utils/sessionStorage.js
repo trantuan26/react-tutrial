@@ -27,3 +27,4 @@ export function setInSession(key, obj) {
 export function removeSession(key) {
     sessionStorage.removeItem(key);
 }
+

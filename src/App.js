@@ -5,9 +5,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import './css/mdb.css';
 import './App.css';
+import { setupTimeOut } from './utils/storage';
 
 class App extends Component {
      componentWillMount() {
+         setupTimeOut();
     }
 
     componentWillReceiveProps() {

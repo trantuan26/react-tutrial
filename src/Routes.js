@@ -2,20 +2,6 @@ import React from "react";
 import {
    Route, Switch
 } from "react-router-dom";
-
-import Home from './Componet/Home/Home';
-import About from './Componet/About/About';
-import SignUp from './Componet/Contact/SignUp';
-import SignIn from './Componet/Contact/SignIn';
-import Contact from './Componet/Contact/Contact';
-import DocumentPage from './Componet/UserInfo/DocumentPage';
-import Privacy from './Componet/Privacy/Privacy';
-import Verify from './Componet/Verify/Verify';
-import ProfilePicture from './Componet/UserInfo/ProfilePicture';
-import IndentilyCard from './Componet/UserInfo/IndentilyCard';
-import VehicleImage from './Componet/UserInfo/VehicleImage';
-import VehicleLog from './Componet/UserInfo/VehicleLog';
-
 import ButtonPage from './pages/ButtonPage';
 import CSSPage from './pages/CSSPage';
 import TablePage from './pages/TablePage';
@@ -47,6 +33,28 @@ import ChartsPage from './pages/ChartsPage';
 import ScrollBarPage from './pages/ScrollBarPage';
 import CRUD from './pages/Crud';
 
+import Home from './Componet/Home/Home';
+import About from './Componet/About/About';
+import SignUp from './Componet/Contact/SignUp';
+import SignIn from './Componet/Contact/SignIn';
+import Contact from './Componet/Contact/Contact';
+import DocumentPage from './Componet/UserInfo/DocumentPage';
+import Privacy from './Componet/Privacy/Privacy';
+import Verify from './Componet/Verify/Verify';
+import ProfilePicture from './Componet/UserInfo/ProfilePicture';
+import IndentilyCard from './Componet/UserInfo/IndentilyCard';
+import VehicleImage from './Componet/UserInfo/VehicleImage';
+import VehicleLog from './Componet/UserInfo/VehicleLog';
+import DrivingLicense from './Componet/UserInfo/DrivingLicense';
+import VehicleInsurance from './Componet/UserInfo/VehicleInsurance';
+import DeviceInformation from './Componet/UserInfo/DeviceInformation';
+import StudentCardClearance from "./Componet/UserInfo/StudentCardClearance";
+import RegistrationBookClearance from "./Componet/UserInfo/RegistrationBookClearance";
+import CVClearance from "./Componet/UserInfo/CVClearance";
+import EmergencyContact from "./Componet/UserInfo/EmergencyContact";
+
+
+
 
 const Routes = () => (
     <Switch>
@@ -63,6 +71,13 @@ const Routes = () => (
         <Route path='/documents/identily-card' component={IndentilyCard}/>
         <Route path='/documents/vehicle-image' component={VehicleImage}/>
         <Route path='/documents/vehicle-log' component={VehicleLog}/>
+        <Route path='/documents/vehicle-license' component={DrivingLicense}/>
+        <Route path='/documents/vehicle-insurance' component={VehicleInsurance}/>
+        <Route path='/documents/device-information' component={DeviceInformation}/>
+        <Route path='/documents/student-card-clearance' component={StudentCardClearance}/>
+        <Route path='/documents/registration-book-clearance' component={RegistrationBookClearance}/>
+        <Route path='/documents/cv-clearance' component={CVClearance}/>
+        <Route path='/documents/emergency-contact' component={EmergencyContact}/>
 
         <Route exact path='/css' component={CSSPage} />
         <Route exact path='/css/table' component={TablePage} />

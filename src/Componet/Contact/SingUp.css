@@ -8,7 +8,7 @@
     background: url("../../img/css/driver_main_banner_signin.jpg") no-repeat #d0d0d0;
     background-size: cover;
     background-position: center center;
-    height: 900px;
+    height: 1000px;
     margin-bottom: -26px;
 }
 
@@ -87,8 +87,8 @@ input[type=text], input[type=password], input[type=email], input[type=url], inpu
     width: 100% !important;
     font-family: 'Sanomat Grab Web Bold', sans-serif !important;
     margin: 16px;
-    font-weight: 600;
-    font-size: 1.786em;
+    font-weight: 400;
+    font-size: 1.5em;
 }
 
 #mySubmit, mySubmit button {
@@ -116,4 +116,8 @@ input[type=text], input[type=password], input[type=email], input[type=url], inpu
 .main-background .card .card-body p {
     margin-bottom: 1rem;
     color: black;
+}
+
+.collapse.show p{
+    color:red!important;
 }

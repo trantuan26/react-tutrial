@@ -2,7 +2,7 @@ module.exports = {
   SERVER:"http://localhost",
   AVATAR:"http://localhost/uploads/",
   SENDSMS:"http://localhost/api/auth/sendsms",
-  REGISTER:'http://localhost/api/auth/register',
+  REGISTER:'http://localhost/api/auth/register-web',
   CAPTCHA:'http://localhost/api/captcha',
   TYPEDRIVE:'http://localhost/api/type_drive',
   REFERRAL:'http://localhost/api/referral',

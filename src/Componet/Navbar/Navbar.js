@@ -37,14 +37,6 @@ class HomeMenu extends Component {
         }
     }
 
-    componentWillReceiveProps() {
-        console.log('navbar componentWillReceiveProps');
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('navbar shouldComponentUpdate');
-        return true;
-    }
 
     componentDidMount() {
         let {user, isLogin} = this.state;
@@ -53,7 +45,6 @@ class HomeMenu extends Component {
         } else if (user.phone === '' && isLogin) {
             this.setState({isLogin: false});
         }
-        console.log('navbar componentDidMount');
     }
 
     handleTogglerClick() {
@@ -69,9 +60,7 @@ class HomeMenu extends Component {
     }
 
     render() {
-        console.log('navbar render');
         return (
-            <div>
                 <Navbar className="nav-main" expand="md" fixed="top" scrolling>
                     <NavbarBrand href="/">
                         <img src={mainLogo} alt="or-trans" height="32"/> OR - TRANS
@@ -80,7 +69,7 @@ class HomeMenu extends Component {
                     <Collapse isOpen={this.state.collapsed} navbar>
                         <NavbarNav right onClick={this.handleNavbarClick}>
                             <NavItem>
-                                <NavLink to="/">Home</NavLink>
+                                <NavLink to="/">Trang Chủ</NavLink>
                             </NavItem>
                             {/*<NavItem>*/}
                                 {/*<NavLink to="/css">CSS</NavLink>*/}
@@ -93,12 +82,12 @@ class HomeMenu extends Component {
                             {/*</NavItem>*/}
                             {
                                 !this.state.isLogin && <NavItem>
-                                    <NavLink to="/signin">Sign In</NavLink>
+                                    <NavLink to="/signin">Đăng Nhập</NavLink>
                                 </NavItem>
                             }
                             {
                                 !this.state.isLogin && <NavItem>
-                                    <NavLink to="/signup">Sign Up</NavLink>
+                                    <NavLink to="/signup">Đăng Ký</NavLink>
                                 </NavItem>
                             }
                             {
@@ -109,7 +98,6 @@ class HomeMenu extends Component {
                         </NavbarNav>
                     </Collapse>
                 </Navbar>
-            </div>
         );
     }
 }

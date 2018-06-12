@@ -9,20 +9,33 @@ import {ToastContainer, toast} from 'react-toastify';
 import '../../pages/alerts.css';
 import ReCAPTCHA from 'react-grecaptcha';
 import Axios from 'axios';
-import {setInSession} from '../../utils/sessionStorage';
+// import {setInSession} from '../../utils/sessionStorage';
 import Api from '../../utils/api';
 import FooterMain from '../Footer/Footer';
 import NavbarCus from '../Navbar/Navbar';
+import passwordValidator from 'password-validator';
+
+const checkPass = new passwordValidator();
+// Add properties to it
+checkPass
+    .is().min(8)                                    // Minimum length 8
+    .is().max(100)                                  // Maximum length 100
+    .has().uppercase()                              // Must have uppercase letters
+    .has().lowercase()                              // Must have lowercase letters
+    .has().digits()                                 // Must have digits
+    .has().symbols()                                 // Must have symbols
+    .has().not().spaces();
 
 class SimpleSelect extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            city: 'hcm',
+            city: '',
             fullname: '',
             phone: '',
-            address: '',
+            email: '',
+            password: '',
             typeDrive: 0,
             referral: '0',
             referralCode: '',
@@ -30,9 +43,10 @@ class SimpleSelect extends React.Component {
             arrayTypeReferral: [],
             fullnameValid: false,
             phoneValid: false,
-            addressValid: false,
+            emailValid: false,
             typeDriveValid: false,
             referralValid: false,
+            passwordValid: false,
             isDisabled: true,
             isRegister: false,
         };
@@ -43,7 +57,8 @@ class SimpleSelect extends React.Component {
         this.handleChangeType = this.handleChangeType.bind(this);
         this.handleChangeFullname = this.handleChangeFullname.bind(this);
         this.handleChangePhone = this.handleChangePhone.bind(this);
-        this.handleChangeAddress = this.handleChangeAddress.bind(this);
+        this.handleChangeEmail = this.handleChangeEmail.bind(this);
+        this.handleChangePassword = this.handleChangePassword.bind(this);
         this.handleChangeReferral = this.handleChangeReferral.bind(this);
         this.handleChangeReferralCode = this.handleChangeReferralCode.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -77,6 +92,10 @@ class SimpleSelect extends React.Component {
     }
 
 
+    handleChangePassword(event) {
+        this.setState({password: event.target.value});
+    }
+
     handleChangeReferralCode(event) {
         this.setState({referralCode: event.target.value});
     }
@@ -85,8 +104,8 @@ class SimpleSelect extends React.Component {
         this.setState({referral: event.target.value});
     }
 
-    handleChangeAddress(event) {
-        this.setState({address: event.target.value});
+    handleChangeEmail(event) {
+        this.setState({email: event.target.value});
     }
 
     handleChangeFullname(event) {
@@ -139,12 +158,19 @@ class SimpleSelect extends React.Component {
         const {
             fullname,
             phone,
-            address,
+            email,
+            password,
             typeDrive,
             referral
         } = this.state;
 
-        if (fullname === null || fullname.length < 10) {
+        if (!checkPass.validate(password)) {
+            this.setState({passwordValid: true});
+        } else {
+            this.setState({passwordValid: false});
+        }
+
+        if (fullname === null || fullname.length < 7) {
             this.setState({fullnameValid: true});
         } else {
             this.setState({fullnameValid: false});
@@ -156,10 +182,14 @@ class SimpleSelect extends React.Component {
             this.setState({phoneValid: false});
         }
 
-        if (address === null || address.length < 30) {
-            this.setState({addressValid: true});
+        if (!email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
+            this.setState({emailValid: true});
         } else {
-            this.setState({addressValid: false});
+            this.setState({emailValid: false});
+            let a = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+            if (a[2] !== "gmail.") {
+                this.setState({emailValid: true});
+            }
         }
 
         if (typeDrive === null || typeDrive.length < 1) {
@@ -177,17 +207,18 @@ class SimpleSelect extends React.Component {
 
     async handleSubmit() {
         await this.checkValid();
-        const {city, fullname, phone, address, typeDrive, referral, referralCode, fullnameValid, phoneValid, addressValid, typeDriveValid, referralValid, isDisabled} = await this.state;
-        if (fullnameValid || phoneValid || addressValid || typeDriveValid || referralValid || isDisabled) {
-            console.log(fullnameValid, phoneValid, addressValid, typeDriveValid, referralValid, isDisabled);
+        const {password, city, fullname, phone, email, typeDrive, referral, referralCode, fullnameValid, phoneValid, emailValid, typeDriveValid, referralValid, isDisabled, passwordValid} = await this.state;
+        if (passwordValid ||fullnameValid || phoneValid || emailValid || typeDriveValid || referralValid || isDisabled) {
+            toast.warn('Vui lòng kiểm tra giá trị nhập');
         } else {
             //lưu số điện thoại vào session
-            setInSession("phone", phone);
-            //localhost/api/auth/register
+            // setInSession("phone", phone);
+            // localhost/api/auth/register
             Axios.post(Api.REGISTER, {
                 fullName: fullname,
                 cityDrive: city,
-                address: address,
+                email: email,
+                password: password,
                 countryCode: 84,
                 phone: parseInt(phone, 10),
                 roleType: 2, // 1 user, 2 driver, 0 admin
@@ -199,16 +230,16 @@ class SimpleSelect extends React.Component {
                 .then(response => {
                     if (response.status === 200) {
                         let {value} = response.data;
-                        if (value === 7 || value === 5) {
+                        if (value===true) {
                             this.setState({isRegister: true})
                         }
                         else {
-                            toast.warn('Please check value typing');
+                            toast.warn('Vui lòng kiểm tra giá trị nhập');
                         }
                     }
                 })
                 .catch(function (error) {
-                    toast.warn('Please check value typing');
+                    toast.warn('Vui lòng kiểm tra giá trị nhập');
                 });
         }
     }
@@ -223,53 +254,63 @@ class SimpleSelect extends React.Component {
                     <Container>
                         <Row className="d-flex">
                             <Col md="7" lg="7">
-                                {this.state.isRegister ? (<Redirect to="/verify"/>) : ""}
+                                {this.state.isRegister ? (<Redirect to="/signin"/>) : ""}
                             </Col>
                             <Col md="5" lg="5" className="ml-lg-0">
                                 <Card style={{maxWidth: '400px'}} className="signup-card margin_top_16">
                                     <CardBody>
-                                        <CardTitle>Drive with OR-TRANS</CardTitle>
-                                        <CardText>Enter your basic information to get started</CardText>
+                                        <CardTitle> Đăng ký OR-TRANS ngay!</CardTitle>
+                                        <CardText>Vui lòng điền thông tin đầy đủ và chính xác để Grab có thể liên hệ bạn
+                                            sớm nhất.</CardText>
                                         <Row className="d-flex">
                                             <select name="city" value={this.state.city} onChange={this.handleChangeCity}
                                                     className="form-control select-country"
                                                     id="exampleFormControlSelect1">
-                                                <option value="hcm">Ho Chi Minh</option>
-                                                <option value="hni">Ha Noi</option>
-                                                <option value="dng">Da Nang</option>
-                                                <option value="cto">Can Tho</option>
+                                                <option value="">Thành phố hoạt động</option>
+                                                <option value="hcm">Hồ Chí Minh</option>
                                             </select>
                                         </Row>
-
                                         <Row className="d-flex margin_top_16">
-                                            <input type="text" value={this.state.fullname} placeholder="Full name"
+                                            <input type="text" value={this.state.fullname} placeholder="Họ và Tên"
                                                    name="fullname"
                                                    onChange={this.handleChangeFullname}
                                             />
                                         </Row>
                                         <Collapse isOpen={this.state.fullnameValid}>
-                                            <p>please! This field is required, must be more than 10 letters </p>
+                                            <p>Vui lòng nhập đầy đủ họ tên</p>
                                         </Collapse>
 
                                         <Row className="d-flex margin_top_16">
                                             <input type="tel" value={this.state.phone}
-                                                   placeholder="Mobile Number" name="phone"
+                                                   placeholder="Số điện thoại di động" name="phone"
                                                    onChange={this.handleChangePhone}
                                             />
                                         </Row>
                                         <Collapse isOpen={this.state.phoneValid}>
-                                            <p>please! This field is required </p>
+                                            <p>Vui lòng nhập số điện thoại </p>
                                         </Collapse>
 
                                         <Row className="d-flex margin_top_16">
-                                            <input type="text" id="inputAddress"
-                                                   placeholder="1234 Main St" name="address"
-                                                   onChange={this.handleChangeAddress}
-                                                   value={this.state.address}
+                                            <input type="email" id="inputemail"
+                                                   placeholder="Địa chỉ email(Gmail)" name="email"
+                                                   onChange={this.handleChangeEmail}
+                                                   value={this.state.email}
                                             />
                                         </Row>
-                                        <Collapse isOpen={this.state.addressValid}>
-                                            <p>please! This field is required, must be more than 30 letters </p>
+                                        <Collapse isOpen={this.state.emailValid}>
+                                            <p>Vui lòng nhập đúng tài khoản gmail</p>
+                                        </Collapse>
+
+
+                                        <Row className="d-flex margin_top_16">
+                                            <input type="password" value={this.state.password}
+                                                   placeholder="Mật khẩu" name="password"
+                                                   onChange={this.handleChangePassword}
+                                            />
+                                        </Row>
+                                        <Collapse isOpen={this.state.passwordValid}>
+                                            <p>Vui lòng nhập Mật khẩu phải có ít nhất 8 ký tự, có
+                                                số, chữ hoa, chữ thường, ký tự đặc biệt</p>
                                         </Collapse>
 
                                         <Row className="d-flex margin_top_16">
@@ -291,7 +332,7 @@ class SimpleSelect extends React.Component {
                                             <select name="referral" value={this.state.referral}
                                                     onChange={this.handleChangeReferral}
                                                     className="form-control select-country">
-                                                <option value="0">Referral</option>
+                                                <option value="0">Nguồn giới thiệu</option>
                                                 {
                                                     this.state.arrayTypeReferral.map((item) => {
                                                         return (
@@ -303,12 +344,12 @@ class SimpleSelect extends React.Component {
                                             </select>
                                         </Row>
                                         <Collapse isOpen={this.state.typeDriveValid}>
-                                            <p>please! This field is required </p>
+                                            <p> Vui lòng chọn một đối tượng </p>
                                         </Collapse>
 
                                         <Row className="d-flex margin_top_16">
                                             <input type="text"
-                                                   placeholder="referral code" name="referral_code"
+                                                   placeholder="Code giới thiệu( nếu có)" name="referral_code"
                                                    onChange={this.handleChangeReferralCode}
                                                    value={this.state.referralCode}
                                             />
@@ -324,18 +365,16 @@ class SimpleSelect extends React.Component {
                                         </Row>
 
                                         <Row className="d-flex margin_top_16">
-                                            <p>By proceeding, I agree that Grab can collect, use and disclose the
-                                                information
-                                                provided by me in accordance with the <a
-                                                    href="http://localhost/privacy"> Privacy Policy </a>which I have
-                                                read
-                                                and
-                                                understand.</p>
+                                            <p>Khi tiếp tục, tôi đồng ý Grab được phép thu thập, sử dụng và tiết lộ
+                                                thông tin được tôi cung cấp theo <a
+                                                    href="http://localhost/privacy"> Chính sách Bảo mật </a>mà tôi đã
+                                                đọc và hiểu.</p>
                                         </Row>
                                         <Row className="d-flex margin_top_16">
                                             <Button className="btn-verify" id="mySubmit" type="submit"
-                                                    disabled={this.state.isDisabled} onClick={this.handleSubmit}
-                                            >SIGN UP</Button>
+                                                // disabled={this.state.isDisabled}
+                                                    onClick={this.handleSubmit}
+                                            >ĐĂNG KÝ</Button>
                                         </Row>
 
                                     </CardBody>
