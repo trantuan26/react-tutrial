@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {Collapse, Container, Row, Col} from 'mdbreact';
-import FooterMain from '../Footer/Footer';
-import NavbarCus from '../Navbar/Navbar';
 
 class CollapsePage extends Component {
     constructor(props) {
@@ -65,8 +63,7 @@ class CollapsePage extends Component {
 
     render() {
         return (
-            <div>
-                <NavbarCus/>
+            <div style={{marginTop: "4em"}}>
                 <Container className="home-container">
                     <Row>
                         <Col md="10" className="mx-auto mt-4">
@@ -203,7 +200,6 @@ class CollapsePage extends Component {
                         </Col>
                     </Row>
                 </Container>
-                <FooterMain/>
             </div>
         );
     }

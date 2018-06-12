@@ -6,8 +6,6 @@ import {Container } from 'mdbreact';
 import {ToastContainer, toast} from 'react-toastify';
 
 import Api from '../../utils/api';
-import FooterMain from '../Footer/Footer';
-import NavbarCus from '../Navbar/Navbar';
 import {getFromStorage, setInStorage} from "../../utils/storage";
 import Config from "../../utils/config";
 import './Profile.css';
@@ -185,7 +183,6 @@ class RegistrationBookClearance extends React.Component {
             <div>
                 {this.state.isRedirect ? (<Redirect to="/update-user-acount"/>) : ""}
                 {this.state.isRefesh ? (<Redirect to="/doccuments/registration-book-clearance"/>) : ""}
-                <NavbarCus/>
                 <div style={{marginTop: "4em"}} className="profile-doccument">
                     <Container>
                         <div className="profile-title">
@@ -288,7 +285,6 @@ class RegistrationBookClearance extends React.Component {
                         autoClose={5000}
                     />
                 </div>
-                <FooterMain/>
             </div>
         );
     }

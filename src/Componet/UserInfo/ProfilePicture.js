@@ -1,8 +1,6 @@
 import React from 'react';
 import {Container} from 'mdbreact';
 import Api from '../../utils/api';
-import FooterMain from '../Footer/Footer';
-import NavbarCus from '../Navbar/Navbar';
 import {getFromStorage, setInStorage} from "../../utils/storage";
 import Config from "../../utils/config";
 import './Profile.css';
@@ -82,7 +80,6 @@ class ProfilePicture extends React.Component {
     render() {
         return (
             <div>
-                <NavbarCus/>
                 <div style={{marginTop: "4em"}} className="profile-doccument" >
                     <Container >
                         <div className="profile-title">
@@ -131,7 +128,6 @@ class ProfilePicture extends React.Component {
                         </div>
                     </Container>
                 </div>
-                <FooterMain/>
             </div>
         );
     }

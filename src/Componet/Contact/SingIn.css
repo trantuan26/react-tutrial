@@ -24,6 +24,10 @@
     #rc-imageselect, .g-recaptcha {transform:scale(0.77);-webkit-transform:scale(0.77);transform-origin:0 0;-webkit-transform-origin:0 0;}
 }
 
+#telphone {
+    width: 75% !important;
+}
+
 .btn-verify {
     background-color: #d46c2e !important;
 }
@@ -42,6 +46,8 @@
     margin: -15px auto 15px auto;
 }
 
-.flag-container {
+.flag-container, .country-name, .dial-code {
     color: black!important;
 }
+
+

@@ -3,15 +3,12 @@ import {
     NavLink
 } from "react-router-dom";
 import {Container, Row, Col, Jumbotron, Fa} from 'mdbreact';
-import FooterMain from '../Footer/Footer';
-import NavbarCus from '../Navbar/Navbar';
 import "./Doccument.css"
 
 class DocumentPage extends React.Component {
     render() {
         return (
             <div>
-                <NavbarCus/>
                 <div style={{marginTop: "4em"}} className="main-doccument">
                     <Container>
                         <Row>
@@ -61,7 +58,6 @@ class DocumentPage extends React.Component {
                         </Row>
                     </Container>
                 </div>
-                <FooterMain/>
             </div>
         );
     }

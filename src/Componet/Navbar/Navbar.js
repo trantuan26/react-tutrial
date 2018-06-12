@@ -37,7 +37,6 @@ class HomeMenu extends Component {
         }
     }
 
-
     componentDidMount() {
         let {user, isLogin} = this.state;
         if (user.phone !== '' && !isLogin) {

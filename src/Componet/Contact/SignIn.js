@@ -6,15 +6,14 @@ import IntlTelInput from 'react-intl-tel-input';
 import libphonenumber from '../../../node_modules/react-intl-tel-input/dist/libphonenumber.js';
 import '../../../node_modules/react-intl-tel-input/dist/main.css';
 import './SingIn.css';
-import {Button, Card, CardBody, CardTitle, Row, Col, Container, Collapse } from 'mdbreact';
+import {Button, Card, CardBody, CardTitle, Row, Col, Container, Collapse} from 'mdbreact';
 import {ToastContainer, toast} from 'react-toastify';
 import mainLogo from '../../img/logo.gif';
 import ReCAPTCHA from 'react-grecaptcha';
 import Axios from 'axios';
 import Api from "../../utils/api";
 import {setInSession} from "../../utils/sessionStorage";
-import FooterMain from '../Footer/Footer';
-import NavbarCus from '../Navbar/Navbar';
+
 
 class SimpleSelect extends React.Component {
 
@@ -68,14 +67,6 @@ class SimpleSelect extends React.Component {
         }
     }
 
-    componentDidMount() {
-
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        return false;
-    }
-
 
     onChangeHandler(status, value, countryData, number, id) {
         if (status) {
@@ -110,68 +101,66 @@ class SimpleSelect extends React.Component {
 
     render() {
         return (
-            <div>
-                <NavbarCus/>
-                <div className="main-background">
-                    {this.state.isRegister ? (<Redirect to="/verify"/>) : ""}
-                    <Container  style={{marginTop:"4em"}}>
-                        <Row className="d-flex align-items-center" style={{minHeight: '30rem'}}>
-                            <Col md="7" lg="7">
-                            </Col>
-                            <Col md="5" lg="5" className="ml-lg-0 align-top">
-                                <div className="text-center text-md-right signin-padding">
-                                    <Card style={{maxWidth: '340px'}}>
-                                        <CardBody className="text-center">
-                                            <img className="signin-padding" src={mainLogo} alt="sign in" height="96"/>
-                                            <div className='signin-line'>
 
-                                            </div>
-                                            <CardTitle>Sign In</CardTitle>
-                                            <div className="text-left"
-                                                 style={{border: '1px solid #D0D0D0', borderRadius: '5px'}}>
-                                                <IntlTelInput
-                                                    onPhoneNumberChange={this.onChangeHandler}
-                                                    onPhoneNumberBlur={this.onChangeHandler}
-                                                    preferredCountries={['vn']}
-                                                    onSelectFlag={null}
-                                                    nationalMode={false}
-                                                    separateDialCode={true}
-                                                    fieldId={'telphone'}
-                                                    style={{borderBottom: '0px'}}
-                                                    utilsScript={libphonenumber}/>
-                                            </div>
-                                            <div className="d-flex margin_top_16">
-                                                <input type="password" value={this.state.password}
-                                                       placeholder="password" name="password"
-                                                       onChange={this.handleChangePassword}
-                                                />
-                                            </div>
-                                            <Collapse isOpen={this.state.passwordValid}>
-                                                <p>please! This field is required </p>
-                                            </Collapse>
-                                            <ReCAPTCHA
-                                                sitekey="6LfPfVwUAAAAAODFgOV5Qch0OV7lIBky41Tk1rp7"
-                                                callback={this.verifyCallback}
-                                                expiredCallback={this.expiredCallback}
-                                                locale="en"
-                                                className="signin-captcha"
+            <div className="main-background">
+                {this.state.isRegister ? (<Redirect to="/verify"/>) : ""}
+                <Container style={{marginTop: "4em"}}>
+                    <Row className="d-flex align-items-center" style={{minHeight: '30rem'}}>
+                        <Col md="7" lg="7">
+                        </Col>
+                        <Col md="5" lg="5" className="ml-lg-0 align-top">
+                            <div className="text-center text-md-right signin-padding">
+                                <Card style={{maxWidth: '340px'}}>
+                                    <CardBody className="text-center">
+                                        <img className="signin-padding" src={mainLogo} alt="sign in" height="96"/>
+                                        <div className='signin-line'>
+
+                                        </div>
+                                        <CardTitle>Sign In</CardTitle>
+                                        <div className="text-left"
+                                             style={{border: '1px solid #D0D0D0', borderRadius: '5px'}}>
+                                            <IntlTelInput
+                                                onPhoneNumberChange={this.onChangeHandler}
+                                                onPhoneNumberBlur={this.onChangeHandler}
+                                                preferredCountries={['vn']}
+                                                onlyCountries={['vn', 'us']}
+                                                onSelectFlag={null}
+                                                nationalMode={false}
+                                                separateDialCode={true}
+                                                fieldId={'telphone'}
+                                                style={{borderBottom: '0px'}}
+                                                utilsScript={libphonenumber}/>
+                                        </div>
+                                        <div className="d-flex margin_top_16">
+                                            <input type="password" value={this.state.password}
+                                                   placeholder="password" name="password"
+                                                   onChange={this.handleChangePassword}
                                             />
-                                            <Button className="signin-padding btn-verify" id="mySubmit"
-                                                    disabled={this.state.isDisabled} onClick={this.onSubmit}
-                                            >send code verify</Button>
-                                        </CardBody>
-                                    </Card>
-                                </div>
-                            </Col>
-                        </Row>
-                        <ToastContainer
-                            hideProgressBar={true}
-                            newestOnTop={true}
-                            autoClose={5000}
-                        />
-                    </Container>
-                </div>
-                <FooterMain/>
+                                        </div>
+                                        <Collapse isOpen={this.state.passwordValid}>
+                                            <p>please! This field is required </p>
+                                        </Collapse>
+                                        <ReCAPTCHA
+                                            sitekey="6LfPfVwUAAAAAODFgOV5Qch0OV7lIBky41Tk1rp7"
+                                            callback={this.verifyCallback}
+                                            expiredCallback={this.expiredCallback}
+                                            locale="en"
+                                            className="signin-captcha"
+                                        />
+                                        <Button className="signin-padding btn-verify" id="mySubmit"
+                                                disabled={this.state.isDisabled} onClick={this.onSubmit}
+                                        >send code verify</Button>
+                                    </CardBody>
+                                </Card>
+                            </div>
+                        </Col>
+                    </Row>
+                    <ToastContainer
+                        hideProgressBar={true}
+                        newestOnTop={true}
+                        autoClose={5000}
+                    />
+                </Container>
             </div>
         );
     }

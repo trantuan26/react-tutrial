@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
 import Routes from './Routes';
+import NavbarCus from './Componet/Navbar/Navbar';
+import FooterMain from './Componet/Footer/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import './css/mdb.css';
@@ -11,30 +13,15 @@ class App extends Component {
      componentWillMount() {
          setupTimeOut();
     }
-
-    componentWillReceiveProps() {
-        console.log('app componentWillReceiveProps');
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('app shouldComponentUpdate');
-        return true;
-    }
-
-    componentDidMount() {
-        console.log('app componentDidMount');
-    }
-
-
     render() {
-        console.log('app render');
-
-        return (
+       return (
             <Router>
                 <div className="flyout">
-
-                    <Routes />
-                    {/*<FooterMain/>*/}
+                    <NavbarCus />
+                    <main >
+                        <Routes />
+                    </main>
+                    <FooterMain/>
                 </div>
             </Router>
         );
