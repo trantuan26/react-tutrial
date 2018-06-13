@@ -58,11 +58,11 @@ import EmergencyContact from "./Componet/UserInfo/EmergencyContact";
 
 const Routes = () => (
     <Switch>
-        <Route exact path='/' component={Home}/>
+        <Route exact path='/' strict  component={Home}/>
         <Route path='/about' component={About}/>
-        <Route path='/contact' component={Contact}/>
-        <Route path='/signup' component={SignUp}/>
-        <Route path='/signin' component={SignIn}/>
+        <Route exact path='/contact' strict component={Contact}/>
+        <Route exact path='/signup' strict component={SignUp}/>
+        <Route exact path='/signin' strict component={SignIn}/>
         <Route path='/example' component={CRUD}/>
         <Route path='/privacy' component={Privacy}/>
         <Route path='/verify' component={Verify}/>

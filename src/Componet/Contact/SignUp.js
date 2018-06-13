@@ -12,10 +12,9 @@ import ReCAPTCHA from 'react-grecaptcha';
 import Axios from 'axios';
 
 import Api from '../../utils/api';
+import {setInSession} from '../../utils/sessionStorage';
 
 import passwordValidator from 'password-validator';
-
-
 const checkPass = new passwordValidator();
 // Add properties to it
 checkPass
@@ -52,7 +51,7 @@ class SimpleSelect extends React.Component {
             isDisabled: true,
             isRegister: false,
         };
-       
+
         this.expiredCallback = this.expiredCallback.bind(this);
         this.verifyCallback = this.verifyCallback.bind(this);
         this.handleChangeCity = this.handleChangeCity.bind(this);
@@ -232,6 +231,7 @@ class SimpleSelect extends React.Component {
                     switch (responseJson.value) {
                         case 0:
                             toast.success('Đăng ký thành công');
+                            setInSession("phone", parseInt(phone, 10));
                             setTimeout(function () {
                                 this.setState({isRegister: true});
                             }.bind(this), 2000);
@@ -268,7 +268,7 @@ class SimpleSelect extends React.Component {
                 <Container>
                     <Row className="d-flex">
                         <Col md="7" lg="7">
-                            {this.state.isRegister ? (<Redirect to="/signin"/>) : ""}
+                            {this.state.isRegister ? (<Redirect to="/verify" />) : ""}
                         </Col>
                         <Col md="5" lg="5" className="ml-lg-0">
                             <Card style={{maxWidth: '400px'}} className="signup-card margin_top_16">

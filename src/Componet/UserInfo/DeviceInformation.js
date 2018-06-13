@@ -136,8 +136,6 @@ class DeviceInformation extends React.Component {
             const headers = new Headers();
             headers.append('Authorization', 'Bearer ' + this.state.useraccount.token);
             headers.append('Content-Type', 'application/json');
-
-
             const config = {
                 method: 'POST',
                 headers: headers,

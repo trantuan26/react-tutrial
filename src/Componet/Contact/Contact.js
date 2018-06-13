@@ -32,8 +32,8 @@ class Contact extends Component {
         removeStorage(Config.USER);
         removeStorage(Config.USERINFO);
         removeSession(Config.PHONE);
-        this.setState({isLogout: true})
-    }
+        window.location.reload();
+           }
 
     componentWillMount() {
         let useraccount = getFromStorage(Config.USER);
@@ -46,6 +46,13 @@ class Contact extends Component {
             this.setState({user});
         }
     }
+    componentDidMount() {
+        if (this.state.user.phone ==="") {
+            setTimeout(function () {
+                this.setState({isLogout: true})
+            }.bind(this), 1000);
+        }
+    }
 
 
     render() {
@@ -53,7 +60,7 @@ class Contact extends Component {
 
             <div style={{marginTop: "4em"}}>
                 <Container className="contact-container">
-                    {this.state.isLogout ? (<Redirect to="/"/>) : ""}
+                    {this.state.isLogout ? (<Redirect to="/signin"/>) : ""}
                     <Row>
                         <Col md="10" className="mx-auto mt-4">
                             <h2>Phone: {this.state.user.phone}</h2>

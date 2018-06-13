@@ -6,3 +6,7 @@
 .verify-container p {
     color: white;
 }
+
+.verify-container input {
+    color: white;
+}

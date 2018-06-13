@@ -6,12 +6,9 @@ import {Container, Row, Col, Button} from 'mdbreact';
 import "./verify.css";
 import {getFromSession} from '../../utils/sessionStorage';
 import Api from '../../utils/api';
-import Config from '../../utils/config';
 import Axios from "axios/index";
 import {ToastContainer, toast} from 'react-toastify';
-import {setInStorage} from '../../utils/storage';
-import FooterMain from '../Footer/Footer';
-import NavbarCus from '../Navbar/Navbar';
+
 
 class Verify extends Component {
     constructor(props) {
@@ -20,13 +17,13 @@ class Verify extends Component {
             verify: '',
             phone: '',
             code: '',
-            isLogin: false,
+            isRefesh: false,
             isSignIn: false,
         }
         this.verifyChange = this.verifyChange.bind(this);
+        this.verifyPhone = this.verifyPhone.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.submitSendSMS = this.submitSendSMS.bind(this);
-        this.saveInfoUser = this.saveInfoUser.bind(this);
     }
 
     componentWillMount() {
@@ -34,6 +31,10 @@ class Verify extends Component {
         if (phone) {
             this.setState({phone});
         }
+    }
+
+    verifyPhone(event) {
+        this.setState({phone: event.target.value});
     }
 
     verifyChange(event) {
@@ -61,26 +62,6 @@ class Verify extends Component {
         }
     }
 
-    saveInfoUser(token, id) {
-
-        Axios({
-            method: 'get', //you can set what request you want to be
-            url: Api.USERACCOUNT + id,
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
-        }).then(response => {
-            if (response.status === 200) {
-                //let {activeType, create_at, email, fullName, phone, roleType, updated_at, verifyType, _id} = response.data.response;
-                //console.log(activeType, create_at, email, fullName, phone, roleType, updated_at, verifyType, _id);
-                setInStorage(Config.USERINFO, response.data.response);
-            }
-        })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
     handleSubmit() {
         const {phone, verify} = this.state;
         if (phone.length < 6 || phone === undefined) {
@@ -92,34 +73,25 @@ class Verify extends Component {
             })
                 .then(response => {
                     if (response.status === 200) {
-                        let {activeType, message, id} = response.data;
-                        //thông tin đăng nhập
-                        setInStorage(Config.USER, {
-                            activeType: activeType,
-                            token: message,
-                            id: id,
-                        });
-
-                        //save thong tin nguoi dung
-                        this.saveInfoUser(message, id);
-
-                        //activeType = 2 dang ký chua dc duyet
-                        //activeType = 1 dang ký da được dc duyet
-                        if (activeType === 1) {
-                            setTimeout(function () {
-                                this.setState({isLogin: true});
-                            }.bind(this), 2000);
-                        }
-                        if (activeType === 2) {
+                        let {activeType, value} = response.data;
+                        if (activeType === 2 && value === 0) {
+                            toast.success('Xác nhận không thành công, đăng nhập và cập nhật thông tin để sớm trở thành thành viên OR-TRANS',{
+                                position: toast.POSITION.BOTTOM_CENTER
+                            });
                             setTimeout(function () {
                                 this.setState({isSignIn: true});
                             }.bind(this), 2000);
                         } else {
                             toast.warn('Xác nhận không thành công');
+                            setTimeout(function () {
+                                this.setState({isRefesh: true});
+                            }.bind(this), 2000);
                         }
-
                     } else {
                         toast.warn('Xác nhận không thành công');
+                        setTimeout(function () {
+                            this.setState({isRefesh: true});
+                        }.bind(this), 2000);
                     }
                 })
                 .catch(function (error) {
@@ -131,20 +103,29 @@ class Verify extends Component {
     render() {
         return (
             <div>
-                <NavbarCus/>
                 <div style={{marginTop: "4em"}}>
                     <Container className="home-container verify-container">
-                        {this.state.isLogin ? (<Redirect to="/contact"/>) : ""}
-                        {this.state.isSignIn ? (<Redirect to="/update-user-acount"/>) : ""}
+                        {this.state.isSignIn ? (<Redirect to="/signin"/>) : ""}
+                        {this.state.isRefesh ? (<Redirect to="/verify"/>) : ""}
                         <Row>
                             <Col md="10" className="mx-auto mt-4">
                                 <p>Vui lòng xác thực số điện thoại bằng cách nhập Mã xác thực (OTP) đã gửi qua SMS đến
                                     bạn </p>
-                                <p> ******{this.state.phone.substring(this.state.phone.length - 4, this.state.phone.length)} </p>
+                                    <p> {this.state.phone.length > 4 && " ******" + this.state.phone.substring(this.state.phone.length - 4, this.state.phone.length)} </p>
                             </Col>
                         </Row>
                         <Row className="d-flex">
                             <Col md="4" className="mx-auto mt-4">
+                                <p>Số điện thoại</p>
+                                <input className="text-center" type="tel"
+                                       placeholder="" name="phone"
+                                       onChange={this.verifyPhone}
+                                />
+                            </Col>
+                        </Row>
+                        <Row className="d-flex">
+                            <Col md="4" className="mx-auto mt-4">
+                                <p>Mã xác thực</p>
                                 <input className="text-center" type="password" value={this.state.verify}
                                        placeholder="" name="verify"
                                        onChange={this.verifyChange}
@@ -166,13 +147,13 @@ class Verify extends Component {
                             </Col>
                         </Row>
 
-                        <Row className="d-flex">
-                            <Col md="10" className="mx-auto mt-4">
-                                <p>Bấm vào <a style={{color: "blue"}} href="/signin"> đây </a> để đăng nhập (nếu như bạn
-                                    đã
-                                    có tài khoản ) </p>
-                            </Col>
-                        </Row>
+                        {/*<Row className="d-flex">*/}
+                            {/*<Col md="10" className="mx-auto mt-4">*/}
+                                {/*<p>Bấm vào <a style={{color: "blue"}} href="/signin"> đây </a> để đăng nhập (nếu như bạn*/}
+                                    {/*đã*/}
+                                    {/*có tài khoản ) </p>*/}
+                            {/*</Col>*/}
+                        {/*</Row>*/}
                         <ToastContainer
                             hideProgressBar={true}
                             newestOnTop={true}
@@ -180,8 +161,6 @@ class Verify extends Component {
                         />
                     </Container>
                 </div>
-
-                <FooterMain/>
             </div>
         );
     }

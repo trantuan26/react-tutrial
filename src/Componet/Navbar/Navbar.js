@@ -10,11 +10,6 @@ class HomeMenu extends Component {
         super(props);
         this.state = {
             collapsed: false,
-            useraccount: {
-                id: '',
-                token: '',
-                activeType: '',
-            },
             user: {
                 fullName: '',
                 phone: '',
@@ -27,10 +22,6 @@ class HomeMenu extends Component {
     }
 
     componentWillMount() {
-        let a = getFromStorage(Config.USER);
-        if (a) {
-            this.setState({useraccount: a});
-        }
         let b = getFromStorage(Config.USERINFO);
         if (b) {
             this.setState({user: b});
@@ -60,43 +51,43 @@ class HomeMenu extends Component {
 
     render() {
         return (
-                <Navbar className="nav-main" expand="md" fixed="top" scrolling>
-                    <NavbarBrand href="/">
-                        <img src={mainLogo} alt="or-trans" height="32"/> OR - TRANS
-                    </NavbarBrand>
-                    <NavbarToggler onClick={this.handleTogglerClick}/>
-                    <Collapse isOpen={this.state.collapsed} navbar>
-                        <NavbarNav right onClick={this.handleNavbarClick}>
-                            <NavItem>
-                                <NavLink to="/">Trang Chủ</NavLink>
+            <Navbar className="nav-main" expand="md" fixed="top" scrolling>
+                <NavbarBrand href="/">
+                    <img src={mainLogo} alt="or-trans" height="32"/> OR - TRANS
+                </NavbarBrand>
+                <NavbarToggler onClick={this.handleTogglerClick}/>
+                <Collapse isOpen={this.state.collapsed} navbar>
+                    <NavbarNav right onClick={this.handleNavbarClick}>
+                        <NavItem>
+                            <NavLink to="/" exact >Trang Chủ</NavLink>
+                        </NavItem>
+                        {/*<NavItem>*/}
+                        {/*<NavLink to="/css">CSS</NavLink>*/}
+                        {/*</NavItem>*/}
+                        {/*<NavItem>*/}
+                        {/*<NavLink to="/components">Components</NavLink>*/}
+                        {/*</NavItem>*/}
+                        {/*<NavItem>*/}
+                        {/*<NavLink to="/advanced">Advanced</NavLink>*/}
+                        {/*</NavItem>*/}
+                        {
+                            !this.state.isLogin && <NavItem>
+                                <NavLink to="/signin" exact>Đăng Nhập</NavLink>
                             </NavItem>
-                            {/*<NavItem>*/}
-                                {/*<NavLink to="/css">CSS</NavLink>*/}
-                            {/*</NavItem>*/}
-                            {/*<NavItem>*/}
-                                {/*<NavLink to="/components">Components</NavLink>*/}
-                            {/*</NavItem>*/}
-                            {/*<NavItem>*/}
-                                {/*<NavLink to="/advanced">Advanced</NavLink>*/}
-                            {/*</NavItem>*/}
-                            {
-                                !this.state.isLogin && <NavItem>
-                                    <NavLink to="/signin">Đăng Nhập</NavLink>
-                                </NavItem>
-                            }
-                            {
-                                !this.state.isLogin && <NavItem>
-                                    <NavLink to="/signup">Đăng Ký</NavLink>
-                                </NavItem>
-                            }
-                            {
-                                this.state.isLogin && <NavItem>
-                                    <NavLink to="/contact">{this.state.user.fullName}</NavLink>
-                                </NavItem>
-                            }
-                        </NavbarNav>
-                    </Collapse>
-                </Navbar>
+                        }
+                        {
+                            !this.state.isLogin && <NavItem>
+                                <NavLink to="/signup" exact>Đăng Ký</NavLink>
+                            </NavItem>
+                        }
+                        {
+                            this.state.isLogin && <NavItem>
+                                <NavLink to="/contact" exact>{this.state.user.fullName}</NavLink>
+                            </NavItem>
+                        }
+                    </NavbarNav>
+                </Collapse>
+            </Navbar>
         );
     }
 }

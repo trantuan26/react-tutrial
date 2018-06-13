@@ -13,6 +13,8 @@ import ReCAPTCHA from 'react-grecaptcha';
 import Axios from 'axios';
 import Api from "../../utils/api";
 import {setInSession} from "../../utils/sessionStorage";
+import {getFromStorage, setInStorage} from "../../utils/storage";
+import Config from "../../utils/config";
 
 
 class SimpleSelect extends React.Component {
@@ -23,46 +25,118 @@ class SimpleSelect extends React.Component {
             value: '',
             countryData: '',
             phone: '',
+            password: '',
             isDisabled: true,
-            isRegister: false,
+            passwordValid: false,
+            phoneValid: true,
+            isSignin: false,
+            isRefesh: false,
+            isVerify: false,
         };
+        this.handleChangePassword = this.handleChangePassword.bind(this);
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.expiredCallback = this.expiredCallback.bind(this);
         this.verifyCallback = this.verifyCallback.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-
     }
 
+    componentWillMount() {
+        let b = getFromStorage(Config.USERINFO);
+        if (b) {
+            this.setState({phone: b.phone});
+        }
+    }
+
+    componentDidMount() {
+        if (this.state.phone!=="") {
+            this.setState({isSignin: true});
+        }
+    }
+
+    handleChangePassword(event) {
+        this.setState({password: event.target.value});
+    }
+
+    saveInfoUser(token, id) {
+        Axios({
+            method: 'GET', //you can set what request you want to be
+            url: Api.USERACCOUNT + id,
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        }).then(response => {
+            if (response.status === 200) {
+                setInStorage(Config.USERINFO, response.data.response);
+                toast.success('Vào trang thông tin cá nhân cập nhật hồ sơ');
+                window.location.reload();
+            }
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
 
     onSubmit() {
         let {
             phone,
-            isDisabled
+            isDisabled,
+            password,
         } = this.state;
-
 
         //lưu số điện thoại vào session
         setInSession("phone", phone);
-        if (phone.length < 5 || isDisabled === true) {
-            toast.error('phone number not exists. If you have not account, click above to Sign up');
+        if (phone.length < 5 || isDisabled === true || password.length < 8) {
+            if (phone.length < 5) {
+                toast.error('nhập số điện thoại không đúng');
+            }
+            if (password.length < 8) {
+                this.setState({passwordValid: true});
+            }
         } else {
-            console.log(phone);
-            Axios.post(Api.SENDSMS, {
-                phone: parseInt(phone, 10),
-            })
-                .then(response => {
-                    if (response.status === 200) {
-                        console.log(response.data);
-                        toast.success('Hệ thống đã gửi SMS, vui lòng kiểm tra tin nhắn');
+            const headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            const config = {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({
+                    phone: parseInt(phone, 10),
+                    password:password,
+                }),
+            };
+            fetch(Api.SIGNIN, config)
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    let{ value, activeType, message, id } = responseJson;
+                    console.log(value, activeType, message, id );
+                    if (value === 0) {
+                        //thông tin đăng nhập
+                        setInStorage(Config.USER, {
+                            activeType: activeType,
+                            token: message,
+                            id: id,
+                        });
+                        //save thong tin nguoi dung
+                        this.saveInfoUser(message, id);
+                    } else  if (value === 1) {
+                        setInSession("phone", parseInt(phone, 10));
+                        toast.warn('Tài khoản chưa được xác thực');
                         setTimeout(function () {
-                            this.setState({isRegister: true});
+                            this.setState({isVerify: true});
+                        }.bind(this), 2000);
+                    } else  if (value === 2) {
+                        toast.warn('Tài khoản không tồn tại, vui lòng đăng ký!');
+                        setTimeout(function () {
+                            this.setState({isRefesh: true});
                         }.bind(this), 2000);
                     } else {
-                        toast.error('phone number not exists. If you have not account, click above to Sign up');
+                        toast.warn('Mật khẩu đúng');
+                        setTimeout(function () {
+                            this.setState({isRefesh: true});
+                        }.bind(this), 2000);
                     }
                 })
-                .catch(function (error) {
-                    toast.warn('Please check value typing');
+                .catch((error) => {
+                    console.error(error);
                 });
         }
     }
@@ -74,7 +148,6 @@ class SimpleSelect extends React.Component {
         } else {
             this.setState({phone: ''});
         }
-        console.log(this.state.phone);
     };
 
     // specifying your onload callback function
@@ -103,7 +176,9 @@ class SimpleSelect extends React.Component {
         return (
 
             <div className="main-background">
-                {this.state.isRegister ? (<Redirect to="/verify"/>) : ""}
+                {this.state.isSignin ? <Redirect to="/contact" /> : ""}
+                {this.state.isRefesh ? <Redirect to="/signin" /> : ""}
+                {this.state.isVerify ? <Redirect to="/verify" /> : ""}
                 <Container style={{marginTop: "4em"}}>
                     <Row className="d-flex align-items-center" style={{minHeight: '30rem'}}>
                         <Col md="7" lg="7">
@@ -138,7 +213,7 @@ class SimpleSelect extends React.Component {
                                             />
                                         </div>
                                         <Collapse isOpen={this.state.passwordValid}>
-                                            <p>please! This field is required </p>
+                                            <p> nhập mật khẩu không đúng </p>
                                         </Collapse>
                                         <ReCAPTCHA
                                             sitekey="6LfPfVwUAAAAAODFgOV5Qch0OV7lIBky41Tk1rp7"

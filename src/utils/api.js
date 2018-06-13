@@ -7,6 +7,7 @@ module.exports = {
   TYPEDRIVE:'http://localhost/api/type_drive',
   REFERRAL:'http://localhost/api/referral',
   VERIFYWEB:'http://localhost/api/auth/verifyweb',
+  SIGNIN:'http://localhost/api/auth/sign-in-pass-word',
   USERACCOUNT:'http://localhost/api/auth/profile/',
   PROFILE_PICTRUE:'http://localhost/api/auth/avatar',
   PROFILE_CARD:'http://localhost/api/auth/card',
