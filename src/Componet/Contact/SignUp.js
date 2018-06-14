@@ -181,10 +181,10 @@ class SimpleSelect extends React.Component {
             this.setState({emailValid: true});
         } else {
             this.setState({emailValid: false});
-            let a = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-            if (a[2] !== "gmail.") {
-                this.setState({emailValid: true});
-            }
+            // let a = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+            // if (a[2] !== "gmail.") {
+            //     this.setState({emailValid: true});
+            // }
         }
 
         if (typeDrive === null || typeDrive.length < 1) {

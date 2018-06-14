@@ -158,7 +158,7 @@ class SimpleSelect extends React.Component {
     //specifying verify callback function
     //secret: '6LfPfVwUAAAAAFs896v-B4rzTILIYqhtSy_wjfbb',
     verifyCallback(token) {
-        Axios.post('http://localhost/api/captcha', {
+        Axios.post(Api.CAPTCHA, {
             token: token
         })
             .then(response => {
@@ -224,7 +224,7 @@ class SimpleSelect extends React.Component {
                                         />
                                         <Button className="signin-padding btn-verify" id="mySubmit"
                                                 disabled={this.state.isDisabled} onClick={this.onSubmit}
-                                        >send code verify</Button>
+                                        >Đăng Nhập</Button>
                                     </CardBody>
                                 </Card>
                             </div>
